@@ -16,6 +16,10 @@ O Sistema de Moeda Estudantil visa estimular o mérito dos alunos por meio de um
 
 ![Diagrama de Caso de Uso](Artefatos/Casos%20de%20Uso/DiagramaCasosDeUso.png)
 
+## Diagrama de Caso de Classes
+
+![Diagrama de Caso de Classes](<Artefatos/Diagrama de Classes/LPS-3.svg>)
+
 ## Histórias de Usuário
 
 | **User Story**                                  | **Descrição**                                                                                                                                             |
