@@ -27,26 +27,25 @@ export default function RegisterStudent() {
         }));
     }
 
+    const handleChangeAddress = (key: string, value: string | number) => {
+        setAddress((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+    }
+
     const [activeStep, setActiveStep] = useState(0);
-    const [skipped, setSkipped] = useState(new Set<number>());
 
     const isStepOptional = (step: number) => {
         return step === 1;
     };
 
-    const isStepSkipped = (step: number) => {
-        return skipped.has(step);
-    };
+
 
     const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
+
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
     };
 
     const handleBack = () => {
@@ -61,11 +60,8 @@ export default function RegisterStudent() {
         }
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
+
+
     };
 
     const handleReset = () => {
@@ -84,9 +80,7 @@ export default function RegisterStudent() {
                             optional?: React.ReactNode;
                         } = {};
 
-                        if (isStepSkipped(index)) {
-                            stepProps.completed = false;
-                        }
+
                         return (
                             <Step key={label} {...stepProps}>
                                 <StepLabel {...labelProps}>{label}</StepLabel>
@@ -107,15 +101,14 @@ export default function RegisterStudent() {
                 </Fragment>
             ) : (
                 <Fragment>
-                    {
-                        activeStep === 0 && <BasicInformationStep onChange={handleChanges} />
-                    }
-                    {
-                        activeStep === 1 && <AddressInformationStep />
-                    }
-                    {
-                        activeStep === 2 && <div>Step 3</div>
-                    }                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                    <div style={{ height: "40vh" }}>
+                        {
+                            activeStep === 0 ? <BasicInformationStep onChange={handleChanges} /> :
+                                activeStep === 1 ? <AddressInformationStep onChange={handleChangeAddress} address={address} /> :
+                                    <div>Step 3</div>
+                        }
+                    </div>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
                             color="inherit"
                             disabled={activeStep === 0}
@@ -125,11 +118,7 @@ export default function RegisterStudent() {
                             Back
                         </Button>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        {isStepOptional(activeStep) && (
-                            <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                Skip
-                            </Button>
-                        )}
+
                         <Button onClick={handleNext}>
                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                         </Button>

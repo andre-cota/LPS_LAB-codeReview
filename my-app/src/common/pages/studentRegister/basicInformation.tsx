@@ -25,8 +25,9 @@ export const BasicInformationStep = ({ onChange }: BasicInformationStepProps) =>
                     id="nome"
                     label="Nome"
                     fullWidth
-                    onChange={(e) => {
-                        onChange('name', e.target.value);
+                    onInput={(e) => {
+                        console.log(e)
+                        onChange('name', (e.target as HTMLInputElement).value);
                     }}
                 />
             </Grid>
@@ -36,8 +37,8 @@ export const BasicInformationStep = ({ onChange }: BasicInformationStepProps) =>
                     id="rg"
                     label="RG"
                     fullWidth
-                    onChange={(e) => {
-                        onChange('rg', e.target.value);
+                    onInput={(e) => {
+                        onChange('rg', (e.target as HTMLInputElement).value);
                     }}
                 />
             </Grid>
@@ -47,8 +48,8 @@ export const BasicInformationStep = ({ onChange }: BasicInformationStepProps) =>
                     id="course"
                     label="Curso"
                     fullWidth
-                    onChange={(e) => {
-                        onChange('course', e.target.value);
+                    onInput={(e) => {
+                        onChange('course', (e.target as HTMLInputElement).value);
                     }}
                 />
             </Grid>
@@ -58,17 +59,18 @@ export const BasicInformationStep = ({ onChange }: BasicInformationStepProps) =>
                     id="email"
                     label="Email"
                     fullWidth
-                    onChange={(e) => {
-                        onChange('email', e.target.value);
+                    onInput={(e) => {
+                        onChange('email', (e.target as HTMLInputElement).value);
                     }}
                 />
             </Grid>
-            <Grid size={8}>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+            <Grid size={6}>
+                <FormControl variant="outlined" fullWidth>
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
+                        fullWidth
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -83,8 +85,8 @@ export const BasicInformationStep = ({ onChange }: BasicInformationStepProps) =>
                             </InputAdornment>
                         }
                         label="Password"
-                        onChange={(e) => {
-                            onChange('password', e.target.value);
+                        onInput={(e) => {
+                            onChange('password', (e.target as HTMLInputElement).value);
                         }}
                     />
                 </FormControl>
