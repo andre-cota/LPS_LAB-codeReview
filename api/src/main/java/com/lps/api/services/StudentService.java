@@ -26,7 +26,7 @@ public class StudentService {
     }
 
     public List<Student> findByCourse(String course) {
-        return studentRepository.findByCourse(course);
+        return studentRepository.findByCourse_Name(course);
     }
 
     public Student findById(Long id) {

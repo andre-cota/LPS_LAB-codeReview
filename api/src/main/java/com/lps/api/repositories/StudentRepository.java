@@ -11,5 +11,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Student findByCpf(String cpf);
 
-    List<Student> findByCourse(String course);
+    List<Student> findByCourse_Name(String course);
 }
