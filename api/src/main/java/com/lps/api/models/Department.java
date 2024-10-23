@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,9 +31,9 @@ public class Department {
     @JoinColumn(name = "institution_id", nullable = false)
     private Institution institution;
 
-    @OneToMany(mappedBy = "department", orphanRemoval = true)
+    @OneToMany(mappedBy = "department", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Professor> professors;
 
-    @OneToMany(mappedBy = "department", orphanRemoval = true)
+    @OneToMany(mappedBy = "department", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Course> courses;
 }
