@@ -47,3 +47,7 @@ O Sistema de Moeda Estudantil visa estimular o mérito dos alunos por meio de um
 - **JPA (Java Persistence API)**: Utilizado para gerenciar a persistência de dados no banco de dados.
 - **JWT (JSON Web Token)**: Utilizado para autenticação e autorização segura dos usuários.
 - **Redux**: Utilizado para gerenciar o estado global da aplicação React, facilitando a manutenção e escalabilidade.
+
+
+## Estratégia de Acesso ao Banco de Dados
+Utilizamos o Spring Data JPA para implementar a estratégia de acesso ao banco de dados, aproveitando o mapeamento objeto-relacional (ORM) para gerenciar entidades e persistência de dados de forma eficiente. Através do JPA, as entidades do sistema são mapeadas para tabelas no banco de dados relacional, permitindo a manipulação de dados com operações de alto nível, como save, find, e delete, sem a necessidade de escrever SQL manualmente.
