@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../../App";
 import { RegisterAndLoginLayout } from "../layouts/RegisterAndLoginLayout";
 import RegisterStudent from "../pages/studentRegister";
+import EnterpriseRegister from "../pages/enterpriseRegister";
 
 
 const SystemRoutes = createBrowserRouter([
@@ -18,9 +19,17 @@ const SystemRoutes = createBrowserRouter([
 
   {
     path: '/register',
-    element: <RegisterAndLoginLayout>
-      <RegisterStudent />
-    </RegisterAndLoginLayout>
+    element: <RegisterAndLoginLayout />,
+    children: [
+      {
+        path: 'student',
+        element: <RegisterStudent />
+      },
+      {
+        path: 'enterprise',
+        element: <EnterpriseRegister />
+      }
+    ]
 
   }
 ]);

@@ -1,12 +1,9 @@
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import { IconButton, StepLabel } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Step from '@mui/material/Step';
 import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import { Fragment, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { useNotification } from '../../hooks/useNotification';
 import { Address } from '../../types/address';
@@ -14,10 +11,9 @@ import { Student } from '../../types/student';
 import { AddressInformationStep } from './addressInformation';
 import { BasicInformationStep } from './basicInformation';
 import { ConfirmInformation } from './ConfirmInformation';
+import GoBackIcon from '../../components/GoBackIcon';
+import { StepLabel } from '@mui/material';
 const steps = ['Informe seus dados', 'Informe seu endereço', 'Confirme seus dados'];
-
-
-
 
 
 export default function RegisterStudent() {
@@ -71,23 +67,15 @@ export default function RegisterStudent() {
         setActiveStep(0);
     };
 
-    const navigate = useNavigate();
-
     return (
         <Box sx={{
             padding: "20px"
         }}>
-            <Box sx={{ display: "flex" }}>
-                <IconButton onClick={() => {
-                    navigate("/login")
-                }}>
-                    <KeyboardReturnIcon />
-                </IconButton>
-            </Box>
-            < Stepper activeStep={activeStep} >
+            <GoBackIcon link={'/login'} />
+            <Stepper activeStep={activeStep} >
 
                 {
-                    steps.map((label, index) => {
+                    steps.map((label) => {
                         const stepProps: { completed?: boolean } = {};
                         const labelProps: {
                             optional?: React.ReactNode;

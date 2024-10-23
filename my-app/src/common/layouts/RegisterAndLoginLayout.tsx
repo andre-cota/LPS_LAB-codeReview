@@ -1,18 +1,21 @@
 import { Box } from "@mui/material";
+import { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router";
 
-interface RegisterAndLoginLayoutProps {
-    children: React.ReactNode;
-}
+export const RegisterAndLoginLayout = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
 
-
-export const RegisterAndLoginLayout: React.FC<RegisterAndLoginLayoutProps> = ({ children }) => {
-
-
+    useEffect(() => {
+        if (location.pathname === "/register") {
+            navigate("/register/student");
+        }
+    }, [navigate, location.pathname]);
 
     return (
         <div style={{ height: "100vh", backgroundColor: "#A9A9A9", display: "flex", textAlign: "center", justifyContent: "center", alignItems:"center"}}>
             <Box sx={{ backgroundColor: "white", border: "3px solid black", width: "90%", height: "70%", borderRadius: "16px", marginTop: "20px" }}>
-                {children}
+                <Outlet />
             </Box>
         </div>
     );
