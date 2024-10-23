@@ -1,15 +1,19 @@
-import { StepLabel } from '@mui/material';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import { IconButton, StepLabel } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Step from '@mui/material/Step';
 import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../../api';
+import { useNotification } from '../../hooks/useNotification';
 import { Address } from '../../types/address';
 import { Student } from '../../types/student';
 import { AddressInformationStep } from './addressInformation';
 import { BasicInformationStep } from './basicInformation';
-
+import { ConfirmInformation } from './ConfirmInformation';
 const steps = ['Informe seus dados', 'Informe seu endereço', 'Confirme seus dados'];
 
 
@@ -17,7 +21,7 @@ const steps = ['Informe seus dados', 'Informe seu endereço', 'Confirme seus dad
 
 
 export default function RegisterStudent() {
-
+    const { showNotification } = useNotification();
     const [user, setUser] = useState<Partial<Student>>({});
     const [address, setAddress] = useState<Partial<Address>>({});
     const handleChanges = (key: string, value: string | number) => {
@@ -32,13 +36,20 @@ export default function RegisterStudent() {
             ...prev,
             [key]: value,
         }));
+        user.address = address as Address;
+        user.balance = 0;
+        setUser(user);
+    }
+
+    const saveUser = () => {
+        api.post('/students', user).then((response) => {
+            showNotification({ message: "Estudante cadastrado com sucesso", type: "success" });
+        }).catch((error) => {
+            showNotification({ message: error.data, type: "error" });
+        });
     }
 
     const [activeStep, setActiveStep] = useState(0);
-
-    const isStepOptional = (step: number) => {
-        return step === 1;
-    };
 
 
 
@@ -46,33 +57,35 @@ export default function RegisterStudent() {
 
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+        if (activeStep === steps.length - 1) {
+            saveUser()
+        }
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-
-    };
-
     const handleReset = () => {
         setActiveStep(0);
     };
+
+    const navigate = useNavigate();
 
     return (
         <Box sx={{
             padding: "20px"
         }}>
+            <Box sx={{ display: "flex" }}>
+                <IconButton onClick={() => {
+                    navigate("/login")
+                }}>
+                    <KeyboardReturnIcon />
+                </IconButton>
+            </Box>
             < Stepper activeStep={activeStep} >
+
                 {
                     steps.map((label, index) => {
                         const stepProps: { completed?: boolean } = {};
@@ -105,7 +118,7 @@ export default function RegisterStudent() {
                         {
                             activeStep === 0 ? <BasicInformationStep onChange={handleChanges} /> :
                                 activeStep === 1 ? <AddressInformationStep onChange={handleChangeAddress} address={address} /> :
-                                    <div>Step 3</div>
+                                    <ConfirmInformation student={user} />
                         }
                     </div>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

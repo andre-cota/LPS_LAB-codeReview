@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lps.api.models.Student;
+import com.lps.api.dtos.StudentRegisterDto;
 import com.lps.api.services.StudentService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/students")
 public class StudentController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Student student) {
+    public ResponseEntity<?> save(@RequestBody StudentRegisterDto student) {
         return ResponseEntity.ok(studentService.save(student));
     }
 

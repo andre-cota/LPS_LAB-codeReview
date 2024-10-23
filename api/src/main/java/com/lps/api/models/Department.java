@@ -36,4 +36,3 @@ public class Department {
     @OneToMany(mappedBy = "department", orphanRemoval = true)
     private List<Course> courses;
 }
-

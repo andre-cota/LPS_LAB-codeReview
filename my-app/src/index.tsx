@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { RouterProvider } from 'react-router-dom';
+import { NotificationProvider } from './common/context/NotificationContext';
+import SystemRoutes from './common/routes/Routes';
 import reportWebVitals from './reportWebVitals';
 import './styles/global.css';
 
@@ -9,7 +11,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <NotificationProvider>
+      <RouterProvider router={SystemRoutes} />
+    </NotificationProvider>
   </React.StrictMode>
 );
 

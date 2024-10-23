@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lps.api.dtos.StudentRegisterDto;
+import com.lps.api.mappers.StudentMapper;
 import com.lps.api.models.Address;
+import com.lps.api.models.Course;
 import com.lps.api.models.Student;
 import com.lps.api.repositories.StudentRepository;
 
@@ -20,6 +23,9 @@ public class StudentService {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private CourseService courseService;
 
     public List<Student> findAll() {
         return studentRepository.findAll();
@@ -41,7 +47,9 @@ public class StudentService {
         return studentRepository.findByCpf(cpf);
     }
 
-    public Student save(Student student) {
+    public Student save(StudentRegisterDto studentDTO) {
+        Course course = courseService.findById(studentDTO.courseId());
+        Student student = StudentMapper.toStudent(studentDTO, course);
 
         if (student.getName() == null && student.getName().isEmpty() && student.getCpf() == null
                 && student.getCpf().isEmpty()) {

@@ -1,7 +1,9 @@
 import { Address } from './address';
-import { User } from './user';
+import { NaturalPerson } from './naturalPerson';
 export type Student = {
     address: Address;
     rg:String;
-    course:String;
-} & User;
+    cpf:String;
+    balance:number;
+    courseId:Number;
+} & NaturalPerson;

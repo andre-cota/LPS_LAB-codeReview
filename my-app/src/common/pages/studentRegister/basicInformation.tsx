@@ -1,15 +1,27 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../../api';
+import { Course } from '../../types/Course';
 export interface BasicInformationStepProps {
     onChange: (key: string, value: string | number) => void;
 }
 export const BasicInformationStep = ({ onChange }: BasicInformationStepProps) => {
     const [showPassword, setShowPassword] = useState(false);
-
+    const [Courses, setCourses] = useState<Course[]>([]);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+    const getCourse = () => {
+        api.get('/courses/all').then((response) => {
+            setCourses(response.data);
+            console.log(response.data);
+        }
+        ).catch((error) => {
+            console.log(error);
+        });
+    }
+    useEffect(getCourse, []);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
@@ -45,13 +57,32 @@ export const BasicInformationStep = ({ onChange }: BasicInformationStepProps) =>
             <Grid size={6}>
                 <TextField
                     required
-                    id="course"
-                    label="Curso"
+                    id="cpf"
+                    label="CPF"
                     fullWidth
                     onInput={(e) => {
-                        onChange('course', (e.target as HTMLInputElement).value);
+                        onChange('cpf', (e.target as HTMLInputElement).value);
                     }}
                 />
+            </Grid>
+            <Grid size={6}>
+                <FormControl fullWidth>
+                    <InputLabel id="course-label">Curso</InputLabel>
+                    <Select
+                        labelId="course-label"
+                        id="course"
+                        label="Curso"
+                        onChange={(e) => {
+                            onChange('courseId', e.target.value as string);
+                        }}
+                    >
+                        {Courses.map((course) => (
+                            <MenuItem key={course.id} value={course.id}>
+                                {course.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </Grid>
             <Grid size={6}>
                 <TextField

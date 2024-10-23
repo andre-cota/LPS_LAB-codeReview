@@ -2,7 +2,8 @@ package com.lps.api.models;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,8 +30,14 @@ public class Course {
 
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
+    @JsonIgnore
     private Department department;
 
     @OneToMany(mappedBy = "course", orphanRemoval = true)
+    @JsonIgnore
     private List<Student> students;
+
+    public String getDepartmentName() {
+        return this.department.getName();
+    }
 }
