@@ -36,3 +36,14 @@ O Sistema de Moeda Estudantil visa estimular o mérito dos alunos por meio de um
 | **US10 - Professor - Enviar moeda**              | Como professor, eu quero enviar moedas para um aluno como forma de reconhecimento para incentivá-lo a continuar seu bom comportamento ou desempenho.        |
 | **US11 - Professor - Receber moedas semestralmente** | Como professor, eu quero receber 1.000 moedas semestralmente para poder distribuir aos alunos ao longo do semestre de acordo com os critérios definidos.   |
 | **US12 - Professor - Consultar extrato**         | Como professor, eu quero consultar meu extrato de moedas para visualizar o saldo disponível e as moedas já distribuídas para os alunos.                     |
+
+## Tecnologias Utilizadas
+
+- **Java SpringBoot**: Utilizado para construir a aplicação backend, fornecendo uma estrutura robusta e escalável.
+- **Swagger**: Utilizado para documentar e testar as APIs desenvolvidas. http://localhost:8080/swagger-ui/index.html
+- **React**: Utilizado para construir a interface do usuário, proporcionando uma experiência interativa e dinâmica.
+- **TypeScript (TS)**: Utilizado junto com React para adicionar tipagem estática, melhorando a qualidade do código.
+- **Mockito**: Utilizado para criar testes unitários no backend, garantindo a confiabilidade do código.
+- **JPA (Java Persistence API)**: Utilizado para gerenciar a persistência de dados no banco de dados.
+- **JWT (JSON Web Token)**: Utilizado para autenticação e autorização segura dos usuários.
+- **Redux**: Utilizado para gerenciar o estado global da aplicação React, facilitando a manutenção e escalabilidade.
