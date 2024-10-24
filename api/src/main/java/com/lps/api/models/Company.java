@@ -24,8 +24,8 @@ public class Company extends User {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Advantage> advantages = new ArrayList<>();
 
-    public Company(String name, String email, String password) {
-        super(name, email, password);
+    public Company(Long id, String name, String email, String password) {
+        super(id, name, email, password);
     }
     
 }
