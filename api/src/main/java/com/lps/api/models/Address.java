@@ -41,7 +41,7 @@ public class    Address {
     private String zipCode;
 
     @OneToOne(targetEntity = Student.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "student_id", unique = true)
+    @JoinColumn(name = "student_id", unique = true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonIgnore
     private Student student;

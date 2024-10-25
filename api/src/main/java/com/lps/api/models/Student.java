@@ -29,8 +29,8 @@ public class Student extends NaturalPerson {
     @Column(name = "rg", nullable = false, unique = true)
     private String rg;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true, unique = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", nullable = true, unique = true)
     private Address address;
 
     @ManyToOne(fetch = FetchType.EAGER)

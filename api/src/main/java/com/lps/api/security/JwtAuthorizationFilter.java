@@ -30,8 +30,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final String HEADER = "Authorization";
     private final String PREFIX = "Bearer ";
 
-    @Value("${jwt.secret}")
-    private String SECRET;
+    @Value("${jwt.secret}") String SECRET;
 
     @Autowired
     private AuthService authService;

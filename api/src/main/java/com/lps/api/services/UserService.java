@@ -36,10 +36,6 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
     }
 
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     public void changePassword(ChangePasswordDTO changePasswordDTO)
             throws ObjectNotFoundException, ChangePasswordException {
         if (changePasswordDTO.token() != null && !changePasswordDTO.token().isEmpty()) {
@@ -57,8 +53,6 @@ public class UserService {
                 throw new ChangePasswordException("Nova senha e a confirmação não são iguais");
             }
 
-            System.out.println(user.getPassword());
-
             user.setPassword(changePasswordDTO.novaSenha());
             save(user);
             passwordTokenRepository.delete(token);
@@ -67,7 +61,7 @@ public class UserService {
 
     public User save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        this.save(user);
+        this.userRepository.save(user);
 
         return user;
 

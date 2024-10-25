@@ -47,7 +47,7 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.email(),
                         loginRequest.password()));
-        User user = userService.getByEmail(loginRequest.email());
+        User user = userService.findByEmail(loginRequest.email());
         String userType = (user instanceof NaturalPerson) ? "isStudentOrTeacher" : "isEnterprise";
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new LoginResponse(jwt, userType));
@@ -66,7 +66,7 @@ public class AuthController {
     public ResponseEntity<?> sendToken(@RequestBody ForgetPasswordDTO forgetPasswordDTO)
             throws UnsupportedEncodingException, NoSuchElementException, MessagingException {
 
-        User user = userService.getByEmail(forgetPasswordDTO.email());
+        User user = userService.findByEmail(forgetPasswordDTO.email());
         String token = UUID.randomUUID().toString().substring(0, 5);
         userService.createPasswordResetTokenForUser(user.getId(), token);
         emailSenderService.sendRecoveryPasswordMail(user.getEmail(), token);

@@ -23,12 +23,12 @@ import lombok.NoArgsConstructor;
 public class Purchases {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Double id;
+    private Long id;
 
-    @Column(name = "name", nullable = false, unique = false)
-    private Integer value;
+    @Column(name = "price", nullable = false, unique = false)
+    private Integer price;
 
-    @Column(name = "description", nullable = false, unique = false)
+    @Column(name = "quantity", nullable = false, unique = false)
     private Integer quantity;
 
     @Column(name = "date", nullable = false, unique = false)

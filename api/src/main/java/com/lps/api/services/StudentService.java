@@ -47,20 +47,29 @@ public class StudentService {
         return studentRepository.findByCpf(cpf);
     }
 
+    @Transactional
     public Student save(StudentRegisterDto studentDTO) {
         Course course = courseService.findById(studentDTO.courseId());
         Student student = StudentMapper.toStudent(studentDTO, course);
 
-        if (student.getName() == null && student.getName().isEmpty() && student.getCpf() == null
-                && student.getCpf().isEmpty()) {
+        if (student.getName() == null || student.getName().isEmpty() ||
+                student.getCpf() == null || student.getCpf().isEmpty()) {
             throw new IllegalArgumentException("Name and CPF are required fields");
         }
-        Student studentSaved = studentRepository.save(student);
-        studentSaved.getAddress().setStudent(studentSaved);
-        Address adr = addressService.save(studentSaved.getAddress());
-        studentSaved.setAddress(adr);
 
-        return studentRepository.save(studentSaved);
+        Address address = student.getAddress();
+        student.setAddress(null); // Temporarily set address to null
+
+        Student studentSaved = studentRepository.save(student);
+
+        if (address != null) {
+            address.setStudent(studentSaved);
+            Address savedAddress = addressService.save(address);
+            studentSaved.setAddress(savedAddress);
+            studentSaved = studentRepository.save(studentSaved);
+        }
+
+        return studentSaved;
     }
 
     public void deleteById(Long id) {
