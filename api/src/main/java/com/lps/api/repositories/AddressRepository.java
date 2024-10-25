@@ -6,5 +6,4 @@ import com.lps.api.models.Address;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-    Address findByStudentId(Long id);
 }

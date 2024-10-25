@@ -26,19 +26,15 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = false)
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", nullable = false)
-    @JsonIgnore
     private Department department;
-
-    @OneToMany(mappedBy = "course", orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<Student> students;
 
     public String getDepartmentName() {
         return this.department.getName();
     }
 }
+

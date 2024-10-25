@@ -2,6 +2,7 @@ package com.lps.api.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -30,16 +31,17 @@ public class Student extends NaturalPerson {
     private String rg;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = true, unique = true)
+    @JoinColumn(name = "address_id", unique = true)
     private Address address;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Purchases> purchases;
+    // @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    // @JsonIgnore
+    // private List<Purchases> purchases;
 
     public Student(String name, String email, String password, String cpf, Double balance, String rg, Address address,
             Course course) {

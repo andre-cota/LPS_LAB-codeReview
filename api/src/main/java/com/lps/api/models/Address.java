@@ -19,30 +19,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class    Address {
+public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO  )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "street", nullable = false, unique = false)
+    @Column(nullable = false)
     private String street;
-    @Column(name = "number", nullable = false, unique = false)
+    @Column(nullable = false)
     private Integer number;
-    @Column(name = "complement", nullable = true, unique = false)
+    @Column
     private String complement;
-    @Column(name = "neighborhood", nullable = false, unique = false)
+    @Column(nullable = false)
     private String neighborhood;
-    @Column(name = "city", nullable = false, unique = false)
+    @Column(nullable = false)
     private String city;
-    @Column(name = "state", nullable = false, unique = false)
+    @Column(nullable = false)
     private String state;
-    @Column(name = "zip_code", nullable = false, unique = false)
+    @Column(name = "zip_code", nullable = false)
     private String zipCode;
-
-    @OneToOne(targetEntity = Student.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_id", unique = true)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonIgnore
-    private Student student;
 }

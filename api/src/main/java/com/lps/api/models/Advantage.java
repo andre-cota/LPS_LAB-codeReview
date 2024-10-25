@@ -2,6 +2,7 @@ package com.lps.api.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,23 +17,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Advantage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false, unique = false)
+    @Column(nullable = false)
     private String description;
 
-    @Column(name = "value", nullable = false, unique = false)
+    @Column(nullable = false)
     private Integer value;
 
-    @Column(name = "url_image", nullable = true, unique = false)
+    @Column(name = "url_image")
     private String urlImage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 }

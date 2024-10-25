@@ -78,34 +78,6 @@ class AddressServiceTest {
     }
 
     @Test
-    void testDeleteByUserId_Found() {
-        // Mock an Address associated with a student
-        Address address = new Address();
-        address.setId(1L);
-
-        // Mock the repository call
-        when(addressRepository.findByStudentId(1L)).thenReturn(address);
-
-        // Call the service method
-        addressService.deleteByUserId(1L);
-
-        // Verify repository delete was called
-        verify(addressRepository, times(1)).delete(address);
-    }
-
-    @Test
-    void testDeleteByUserId_NotFound() {
-        // Mock the repository call to return null
-        when(addressRepository.findByStudentId(1L)).thenReturn(null);
-
-        // Call the service method
-        addressService.deleteByUserId(1L);
-
-        // Verify delete was not called
-        verify(addressRepository, times(0)).delete(any(Address.class));
-    }
-
-    @Test
     void testSave() {
         // Mock an Address
         Address address = new Address();

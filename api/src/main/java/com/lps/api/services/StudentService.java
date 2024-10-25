@@ -56,24 +56,13 @@ public class StudentService {
                 student.getCpf() == null || student.getCpf().isEmpty()) {
             throw new IllegalArgumentException("Name and CPF are required fields");
         }
-
-        Address address = student.getAddress();
-        student.setAddress(null); // Temporarily set address to null
-
         Student studentSaved = studentRepository.save(student);
 
-        if (address != null) {
-            address.setStudent(studentSaved);
-            Address savedAddress = addressService.save(address);
-            studentSaved.setAddress(savedAddress);
-            studentSaved = studentRepository.save(studentSaved);
-        }
 
         return studentSaved;
     }
 
     public void deleteById(Long id) {
-        addressService.deleteByUserId(id);
         studentRepository.deleteById(id);
     }
 

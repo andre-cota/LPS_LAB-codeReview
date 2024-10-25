@@ -70,16 +70,14 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                 Company company1 = new Company(null, "Empresa1", "empresa1@gmail.com", "123");
                 companyService.save(company1);
                 
-                Institution institution1 = new Institution(null, "Puc Minas", null);
+                Institution institution1 = new Institution(null, "Puc Minas");
                 institutionRepository.saveAll(Arrays.asList(institution1));
 
-                Department department1 = new Department(1L, "Engenharia de Software", institution1, null, null);
+                Department department1 = new Department(1L, "Engenharia de Software", institution1);
                 departmentRepository.saveAll(Arrays.asList(department1));
                 
-                Course course1 = new Course(null, "Engenharia de Software", department1, null);
+                Course course1 = new Course(null, "Engenharia de Software", department1);
                 course1 = courseService.save(course1);
                 
-                StudentRegisterDto student = new StudentRegisterDto("Pedro", "teste@gmail.com", "123", "123", 20.00, "123", course1.getId(), new Address(1L, "rua", 123, "casa", "bairro", "cidade", "estado", "cep", null));
-                studentService.save(student);
         }
 }

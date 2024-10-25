@@ -32,8 +32,8 @@ class CourseServiceTest {
     @Test
     void testFindAll() {
         // Mock data
-        Course course1 = new Course(1L, "Math", null, null);
-        Course course2 = new Course(2L, "Science", null, null);
+        Course course1 = new Course(1L, "Math", null);
+        Course course2 = new Course(2L, "Science", null);
 
         when(courseRepository.findAll()).thenReturn(Arrays.asList(course1, course2));
 
@@ -53,7 +53,7 @@ class CourseServiceTest {
     @Test
     void testFindById() {
         // Mock data
-        Course course = new Course(1L, "Math", null, null);
+        Course course = new Course(1L, "Math", null);
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
 
         // Call the method to be tested
@@ -85,7 +85,7 @@ class CourseServiceTest {
     @Test
     void testFindByName() {
         // Mock data
-        Course course = new Course(1L, "Math", null, null);
+        Course course = new Course(1L, "Math", null);
         when(courseRepository.findByName("Math")).thenReturn(course);
 
         // Call the method to be tested

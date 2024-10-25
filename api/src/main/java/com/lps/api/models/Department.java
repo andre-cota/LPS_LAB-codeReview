@@ -24,16 +24,11 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = false)
+    @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "institution_id", nullable = false)
     private Institution institution;
-
-    @OneToMany(mappedBy = "department", orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Professor> professors;
-
-    @OneToMany(mappedBy = "department", orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Course> courses;
 }
+

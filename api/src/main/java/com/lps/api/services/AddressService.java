@@ -25,12 +25,6 @@ public class AddressService {
         return addressRepository.findById(id).get();
     }
 
-    public void deleteByUserId(Long id) {
-        Address address = addressRepository.findByStudentId(id);
-        if (address != null)
-            addressRepository.delete(address);
-    }
-
     public Address save(Address address) {
         return addressRepository.save(address);
     }

@@ -31,7 +31,6 @@ class CourseTest {
         course.setId(1L);
         course.setName("Software Engineering");
         course.setDepartment(department);
-        course.setStudents(Arrays.asList(student1, student2));
     }
 
     @Test
@@ -39,7 +38,6 @@ class CourseTest {
         assertEquals(1L, course.getId());
         assertEquals("Software Engineering", course.getName());
         assertEquals(department, course.getDepartment());
-        assertEquals(2, course.getStudents().size());
     }
 
     @Test
@@ -47,9 +45,4 @@ class CourseTest {
         assertEquals("Computer Science", course.getDepartmentName());
     }
 
-    @Test
-    void testStudentAssociation() {
-        assertTrue(course.getStudents().contains(student1));
-        assertTrue(course.getStudents().contains(student2));
-    }
 }

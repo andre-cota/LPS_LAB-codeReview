@@ -144,17 +144,6 @@ class StudentServiceTest {
     }
 
     @Test
-    void testDeleteById() {
-        doNothing().when(addressService).deleteByUserId(1L);
-        doNothing().when(studentRepository).deleteById(1L);
-
-        studentService.deleteById(1L);
-
-        verify(addressService, times(1)).deleteByUserId(1L);
-        verify(studentRepository, times(1)).deleteById(1L);
-    }
-
-    @Test
     void testDelete() {
         Student student = new Student();
         doNothing().when(studentRepository).delete(student);

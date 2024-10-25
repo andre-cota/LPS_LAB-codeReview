@@ -21,25 +21,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Purchases {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "price", nullable = false, unique = false)
+    @Column(nullable = false)
     private Integer price;
 
-    @Column(name = "quantity", nullable = false, unique = false)
+    @Column(nullable = false)
     private Integer quantity;
 
-    @Column(name = "date", nullable = false, unique = false)
+    @Column(nullable = false)
     private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advantage_id", nullable = false)
     private Advantage advantage;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Student student;
 }
+

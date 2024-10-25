@@ -15,7 +15,7 @@ class StudentRegisterDtoTest {
         Double balance = 1000.0;
         String rg = "MG1234567";
         Long courseId = 1L;
-        Address address = new Address(courseId, "Street", null, "City", "State", "Zip", rg, rg, null);
+        Address address = new Address(courseId, "Street", null, "City", "State", "Zip", rg, rg);
 
         StudentRegisterDto studentRegisterDto = new StudentRegisterDto(
                 name, email, password, cpf, balance, rg, courseId, address);
@@ -32,7 +32,7 @@ class StudentRegisterDtoTest {
 
     @Test
     void testStudentRegisterDtoEquality() {
-        Address address = new Address(null, "Street", null, "City", "State", "Zip", null, null, null);
+        Address address = new Address(null, "Street", null, "City", "State", "Zip", null, null);
         StudentRegisterDto dto1 = new StudentRegisterDto(
                 "John Doe", "john@example.com", "securePassword", 
                 "12345678900", 1000.0, "MG1234567", 1L, address);
@@ -45,7 +45,7 @@ class StudentRegisterDtoTest {
 
     @Test
     void testStudentRegisterDtoHashCode() {
-        Address address = new Address(null, "Street", null, "City", "State", "Zip", null, null, null);
+        Address address = new Address(null, "Street", null, "City", "State", "Zip", null, null);
         StudentRegisterDto dto1 = new StudentRegisterDto(
                 "John Doe", "john@example.com", "securePassword", 
                 "12345678900", 1000.0, "MG1234567", 1L, address);
