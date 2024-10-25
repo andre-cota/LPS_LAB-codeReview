@@ -18,12 +18,17 @@ const LoginContainer = styled(Box)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 4rem;
   max-width: 400px;
   margin: auto;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-`;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  `;
 
 const StyledTextField = styled(TextField)`
   margin-bottom: 1rem !important;
@@ -46,7 +51,7 @@ const Login: React.FC = () => {
   };
 
   const handleLogin = () => {
-      api.post('/login', {email, password}).then((response) => {
+      api.post('/auth/login', {email, password}).then((response) => {
           navigate('/dashboard');
           //showNotification({ message: "Empresa cadastrada com sucesso", type: "success" });
       }).catch((error) => {
