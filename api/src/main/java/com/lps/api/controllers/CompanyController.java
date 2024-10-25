@@ -16,8 +16,9 @@ public class CompanyController {
     private CompanyService companyService;
 
     @GetMapping
-    public List<Company> getAllCompanies() {
-        return companyService.findAll();
+    public ResponseEntity<List<Company>> getAllCompanies() {
+        List<Company> companies = companyService.findAll();
+        return ResponseEntity.ok().body(companies);
     }
 
     @GetMapping("/{id}")
@@ -31,8 +32,8 @@ public class CompanyController {
     }
 
     @PostMapping
-    public Company createCompany(@RequestBody Company company) {
-        return companyService.save(company);
+    public ResponseEntity<Company> createCompany(@RequestBody Company company) {
+        return ResponseEntity.ok().body(companyService.save(company));
     }
 
     @PutMapping("/{id}")

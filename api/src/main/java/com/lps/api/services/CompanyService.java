@@ -25,8 +25,10 @@ public class CompanyService {
         return companyRepository.findById(id).orElse(null);
     }
 
-    public Company save(Company Company) {
-        return companyRepository.save(Company);
+    public Company save(Company company) {
+        company.setId(null);
+        Company savedCompany = companyRepository.save(company);
+        return companyRepository.save(savedCompany);
     }
 
     public void deleteById(Long id) {
