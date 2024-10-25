@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lps.api.models.Company;
@@ -17,6 +19,9 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public List<Company> findAll() {
         return companyRepository.findAll();
     }
@@ -25,8 +30,11 @@ public class CompanyService {
         return companyRepository.findById(id).orElse(null);
     }
 
-    public Company save(Company Company) {
-        return companyRepository.save(Company);
+    public Company save(Company company) {
+        var newPassword = encoder.encode(company.getPassword());
+        company.setPassword(newPassword);
+        
+        return companyRepository.save(company);
     }
 
     public void deleteById(Long id) {

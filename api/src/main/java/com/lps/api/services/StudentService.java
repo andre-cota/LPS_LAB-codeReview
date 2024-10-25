@@ -3,6 +3,8 @@ package com.lps.api.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lps.api.dtos.StudentRegisterDto;
@@ -22,6 +24,9 @@ public class StudentService {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public List<Student> findAll() {
         return studentRepository.findAll();
@@ -52,6 +57,10 @@ public class StudentService {
                 student.getCpf() == null || student.getCpf().isEmpty()) {
             throw new IllegalArgumentException("Name and CPF are required fields");
         }
+
+        var newPassword = encoder.encode(student.getPassword());
+        student.setPassword(newPassword);
+
         Student studentSaved = studentRepository.save(student);
 
 
