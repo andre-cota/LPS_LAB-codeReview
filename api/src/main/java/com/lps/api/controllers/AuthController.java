@@ -43,11 +43,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+        User user = userService.findByEmail(loginRequest.email());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.email(),
                         loginRequest.password()));
-        User user = userService.findByEmail(loginRequest.email());
         String userType = (user instanceof NaturalPerson) ? "isStudentOrTeacher" : "isEnterprise";
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new LoginResponse(jwt, userType));

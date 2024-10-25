@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -43,6 +45,9 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
         @Autowired
         private StudentService studentService;
 
+        @Autowired
+        private final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
 
 
         @Override
@@ -59,7 +64,7 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                         return;
                 }
 
-                Company company1 = new Company(null, "Empresa1", "empresa1@gmail.com", "123");
+                Company company1 = new Company(null, "Empresa1", "empresa1@gmail.com", encoder.encode("123"));
                 companyService.save(company1);
                 
                 Institution institution1 = new Institution(null, "Puc Minas");
@@ -71,7 +76,7 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                 Course course1 = new Course(null, "Engenharia de Software", department1);
                 course1 = courseService.save(course1);
 
-                StudentRegisterDto student1 = new StudentRegisterDto("Pedro", "Pedronll@outlook.com", "123", "123", 20.00, "123", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
+                StudentRegisterDto student1 = new StudentRegisterDto("Pedro", "Pedronll@outlook.com", encoder.encode("123"), "123", 20.00, "123", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
                 studentService.save(student1);
                 
         }
