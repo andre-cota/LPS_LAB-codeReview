@@ -1,6 +1,5 @@
 package com.lps.api.controllers;
 
-import com.lps.api.controllers.ProfessorController;
 import com.lps.api.models.Professor;
 import com.lps.api.services.ProfessorService;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +37,7 @@ public class ProfessorControllerTest {
 
         ResponseEntity<List<Professor>> response = professorController.getAllProfessors();
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(2, response.getBody().size());
     }
 
@@ -49,7 +48,7 @@ public class ProfessorControllerTest {
 
         ResponseEntity<Professor> response = professorController.getProfessorById(1L);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(professor, response.getBody());
     }
 
@@ -59,7 +58,7 @@ public class ProfessorControllerTest {
 
         ResponseEntity<Professor> response = professorController.getProfessorById(1L);
 
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(404, response.getStatusCode().value());
     }
 
     @Test
@@ -69,7 +68,7 @@ public class ProfessorControllerTest {
 
         ResponseEntity<Professor> response = professorController.createProfessor(professor);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(professor, response.getBody());
     }
 
@@ -80,7 +79,7 @@ public class ProfessorControllerTest {
 
         ResponseEntity<Professor> response = professorController.updateProfessor(1L, professor);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(professor, response.getBody());
     }
 
@@ -90,7 +89,7 @@ public class ProfessorControllerTest {
 
         ResponseEntity<Void> response = professorController.deleteProfessor(1L);
 
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals(204, response.getStatusCode().value());
         verify(professorService, times(1)).deleteById(1L);
     }
 }

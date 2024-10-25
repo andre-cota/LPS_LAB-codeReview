@@ -1,6 +1,5 @@
 package com.lps.api.controllers;
 
-import com.lps.api.controllers.AuthController;
 import com.lps.api.dtos.ChangePasswordDTO;
 import com.lps.api.dtos.ForgetPasswordDTO;
 import com.lps.api.dtos.auth.LoginRequest;
@@ -64,7 +63,7 @@ public class AuthControllerTest {
 
         ResponseEntity<?> response = authController.authenticateUser(loginRequest);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         LoginResponse loginResponse = (LoginResponse) response.getBody();
         assertEquals("isStudentOrTeacher", loginResponse.getUserType());
     }
@@ -77,7 +76,7 @@ public class AuthControllerTest {
 
         ResponseEntity<?> response = authController.changePassword(changePasswordDTO);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Password changed", response.getBody());
     }
 
@@ -93,7 +92,7 @@ public class AuthControllerTest {
 
         ResponseEntity<?> response = authController.sendToken(forgetPasswordDTO);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Email enviado para o usuário test@example.com", response.getBody());
     }
 

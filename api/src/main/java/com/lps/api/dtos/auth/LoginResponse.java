@@ -20,9 +20,4 @@ public class LoginResponse {
         this.userType = userType;
         this.tokenType = "Bearer";
     }
-
-    public Object token() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'token'");
-    }
 }

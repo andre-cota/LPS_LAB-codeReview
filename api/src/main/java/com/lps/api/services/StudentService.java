@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.lps.api.dtos.StudentRegisterDto;
 import com.lps.api.mappers.StudentMapper;
-import com.lps.api.models.Address;
 import com.lps.api.models.Course;
 import com.lps.api.models.Student;
 import com.lps.api.repositories.StudentRepository;
@@ -20,9 +19,6 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
-
-    @Autowired
-    private AddressService addressService;
 
     @Autowired
     private CourseService courseService;

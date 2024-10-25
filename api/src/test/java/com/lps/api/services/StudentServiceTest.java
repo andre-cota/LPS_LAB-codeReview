@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.lps.api.dtos.StudentRegisterDto;
-import com.lps.api.mappers.StudentMapper;
 import com.lps.api.models.Address;
 import com.lps.api.models.Course;
 import com.lps.api.models.Student;

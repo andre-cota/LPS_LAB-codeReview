@@ -3,7 +3,6 @@ package com.lps.api.dtos;
 import com.lps.api.models.Address;
 import com.lps.api.models.Course;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

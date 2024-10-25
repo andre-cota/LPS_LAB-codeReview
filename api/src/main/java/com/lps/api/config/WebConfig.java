@@ -17,16 +17,10 @@ import com.lps.api.models.Company;
 import com.lps.api.models.Course;
 import com.lps.api.models.Department;
 import com.lps.api.models.Institution;
-import com.lps.api.models.Professor;
-import com.lps.api.models.Student;
-import com.lps.api.repositories.CompanyRepository;
-import com.lps.api.repositories.CourseRepository;
 import com.lps.api.repositories.DepartmentRepository;
 import com.lps.api.repositories.InstitutionRepository;
-import com.lps.api.repositories.ProfessorRepository;
 import com.lps.api.services.CompanyService;
 import com.lps.api.services.CourseService;
-import com.lps.api.services.ProfessorService;
 import com.lps.api.services.StudentService;
 
 @Configuration
@@ -49,8 +43,6 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
         @Autowired
         private StudentService studentService;
 
-        @Autowired
-        private ProfessorService professorService;
 
 
         @Override
@@ -78,6 +70,9 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                 
                 Course course1 = new Course(null, "Engenharia de Software", department1);
                 course1 = courseService.save(course1);
+
+                StudentRegisterDto student1 = new StudentRegisterDto("Pedro", "Pedronll@outlook.com", "123", "123", 20.00, "123", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
+                studentService.save(student1);
                 
         }
 }

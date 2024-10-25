@@ -1,6 +1,5 @@
 package com.lps.api.exceptions;
 
-import com.lps.api.exceptions.ChangePasswordException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

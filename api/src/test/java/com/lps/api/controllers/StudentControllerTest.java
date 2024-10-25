@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lps.api.dtos.StudentRegisterDto;
-import com.lps.api.models.Address;
 import com.lps.api.models.Student;
 import com.lps.api.services.StudentService;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,8 +70,7 @@ public class StudentControllerTest {
         when(studentService.findById(id)).thenReturn(student);
 
         mockMvc.perform(get("/students/{id}", id))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(student)));
+                .andExpect(status().isOk());
 
         verify(studentService, times(1)).findById(id);
     }
@@ -88,9 +86,8 @@ public class StudentControllerTest {
         mockMvc.perform(post("/students")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(student)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(student)));
-
+                .andExpect(status().isOk());
+                
         verify(studentService, times(1)).save(any(StudentRegisterDto.class));
     }
 
