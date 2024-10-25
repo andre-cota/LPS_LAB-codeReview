@@ -30,7 +30,6 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(
-                                "/auth/login",
                                 "/exportLastMonth",
                                 "/exportAll",
                                 "/auth/**",

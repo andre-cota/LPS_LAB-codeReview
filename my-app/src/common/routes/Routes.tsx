@@ -3,7 +3,6 @@ import App from "../../App";
 import { RegisterAndLoginLayout } from "../layouts/RegisterAndLoginLayout";
 import RegisterStudent from "../pages/studentRegister";
 import EnterpriseRegister from "../pages/enterpriseRegister";
-import Login from "../pages/login";
 
 
 const SystemRoutes = createBrowserRouter([
@@ -16,7 +15,6 @@ const SystemRoutes = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Login />
   },
 
   {
