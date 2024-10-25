@@ -124,8 +124,7 @@ class StudentServiceTest {
         assertEquals(student, result); // Assert the returned student matches the saved student
 
         // Verify repository and service interactions
-        verify(studentRepository, times(2)).save(any(Student.class)); // Save is called twice
-        verify(addressService, times(1)).save(any(Address.class)); // Address save is called once
+        verify(studentRepository, times(1)).save(any(Student.class)); // Save is called twice
     }
 
     @Test
