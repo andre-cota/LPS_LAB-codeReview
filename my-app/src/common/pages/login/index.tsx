@@ -18,11 +18,17 @@ const LoginContainer = styled(Box)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 4rem;
   max-width: 400px;
   margin: auto;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 `;
 
 const StyledTextField = styled(TextField)`
@@ -46,7 +52,8 @@ const Login: React.FC = () => {
   };
 
   const handleLogin = () => {
-      api.post('/login', {email, password}).then((response) => {
+      api.post('/auth/login', {email, password}).then((response) => {
+          console.log(response)
           navigate('/dashboard');
           //showNotification({ message: "Empresa cadastrada com sucesso", type: "success" });
       }).catch((error) => {
@@ -84,6 +91,22 @@ const Login: React.FC = () => {
           ),
         }}
       />
+      <LoginButton
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        onClick={() => navigate('/register/student')}
+      >
+        Registrar Estudante
+      </LoginButton>
+      <LoginButton
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        onClick={() => navigate('/register/enterprise')}
+      >
+        Registrar Empresa
+      </LoginButton>
       <LoginButton
         variant="contained"
         color="primary"

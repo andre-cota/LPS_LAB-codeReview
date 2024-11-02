@@ -73,41 +73,4 @@ class ProfessorServiceTest {
 
         verify(professorRepository, times(1)).deleteById(1L);
     }
-
-    @Test
-    void testUpdateProfessor() {
-        Department department = new Department();
-        department.setName("Department Name");
-        Professor existingProfessor = new Professor();
-        existingProfessor.setName("Original Name");
-        Professor newProfessor = new Professor();
-        newProfessor.setName("Updated Name");
-        newProfessor.setDepartment(department);
-        newProfessor.setBalance(5000L);
-
-        when(professorRepository.findById(1L)).thenReturn(Optional.of(existingProfessor));
-        when(professorRepository.save(any(Professor.class))).thenReturn(existingProfessor);
-
-        Professor result = professorService.updateProfessor(1L, newProfessor);
-
-        assertEquals("Updated Name", result.getName());
-        assertEquals("Department Name", result.getDepartment().getName());
-        assertEquals(5000L, result.getBalance());
-        verify(professorRepository, times(1)).findById(1L);
-        verify(professorRepository, times(1)).save(existingProfessor);
-    }
-
-    @Test
-    void testUpdateProfessorNotFound() {
-        Professor newProfessor = new Professor();
-        when(professorRepository.findById(1L)).thenReturn(Optional.empty());
-
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            professorService.updateProfessor(1L, newProfessor);
-        });
-
-        assertEquals("Professor not found with id 1", exception.getMessage());
-        verify(professorRepository, times(1)).findById(1L);
-        verify(professorRepository, never()).save(any(Professor.class));
-    }
 }

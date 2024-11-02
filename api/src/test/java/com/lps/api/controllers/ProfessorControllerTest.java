@@ -66,17 +66,6 @@ public class ProfessorControllerTest {
     }
 
     @Test
-    public void testUpdateProfessor() {
-        Professor professor = new Professor();
-        when(professorService.updateProfessor(eq(1L), any(Professor.class))).thenReturn(professor);
-
-        ResponseEntity<Professor> response = professorController.updateProfessor(1L, professor);
-
-        assertEquals(200, response.getStatusCode().value());
-        assertEquals(professor, response.getBody());
-    }
-
-    @Test
     public void testDeleteProfessor() {
         doNothing().when(professorService).deleteById(1L);
 

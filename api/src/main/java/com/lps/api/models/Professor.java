@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @DiscriminatorColumn(name = "type")
 public class Professor extends NaturalPerson {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 

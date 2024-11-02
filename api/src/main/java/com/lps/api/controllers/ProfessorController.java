@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lps.api.dtos.SendCoinsRequestDTO;
+import com.lps.api.dtos.UpdateProfessorDTO;
 import com.lps.api.models.Professor;
 import com.lps.api.services.ProfessorService;
 
@@ -20,7 +21,8 @@ public class ProfessorController {
 
     @GetMapping
     public ResponseEntity<List<Professor>> getAllProfessors() {
-        return ResponseEntity.ok(professorService.findAll());
+        List<Professor> professors = professorService.findAll();
+        return ResponseEntity.ok(professors);
     }
 
     @GetMapping("/{id}")
@@ -35,8 +37,9 @@ public class ProfessorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Professor> updateProfessor(@PathVariable Long id, @RequestBody Professor professor) {
-        return ResponseEntity.ok().body(professorService.updateProfessor(id, professor));
+    public ResponseEntity<Professor> updateProfessor(@PathVariable Long id, @RequestBody UpdateProfessorDTO request) {
+        Professor professor = professorService.updateProfessor(id, request);
+        return ResponseEntity.ok().body(professor);
     }
 
     @DeleteMapping("/{id}")

@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll())
-                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)    
                 .httpBasic(Customizer.withDefaults())
                 //
                 //
