@@ -52,12 +52,18 @@ const Login: React.FC = () => {
   };
 
   const handleLogin = () => {
-      api.post('/auth/login', {email, password}).then((response) => {
-          console.log(response)
-          navigate('/dashboard');
-          //showNotification({ message: "Empresa cadastrada com sucesso", type: "success" });
-      }).catch((error) => {
-          showNotification({ message: 'Erro ao tentar realizar o login', type: "error" });
+    api.post('/auth/login', { email, password })
+      .then((response) => {
+        const { accessToken } = response.data;
+        
+        localStorage.setItem('user', JSON.stringify({ accessToken }));
+  
+        showNotification({ message: 'Login realizado com sucesso', type: 'success' });
+        
+        navigate('/dashboard');
+      })
+      .catch((error) => {
+        showNotification({ message: 'Erro ao tentar realizar o login', type: 'error' });
       });
   };
 
