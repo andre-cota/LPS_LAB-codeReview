@@ -47,20 +47,10 @@ class ProfessorServiceTest {
         Professor professor = new Professor();
         when(professorRepository.findById(1L)).thenReturn(Optional.of(professor));
 
-        Optional<Professor> result = professorService.findById(1L);
+        Professor result = professorService.findById(1L);
 
-        assertTrue(result.isPresent());
-        assertEquals(professor, result.get());
-        verify(professorRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void testFindByIdNotFound() {
-        when(professorRepository.findById(1L)).thenReturn(Optional.empty());
-
-        Optional<Professor> result = professorService.findById(1L);
-
-        assertFalse(result.isPresent());
+        assertTrue(result != null);
+        assertEquals(professor, result);
         verify(professorRepository, times(1)).findById(1L);
     }
 
@@ -93,7 +83,7 @@ class ProfessorServiceTest {
         Professor newProfessor = new Professor();
         newProfessor.setName("Updated Name");
         newProfessor.setDepartment(department);
-        newProfessor.setBalance(5000.0);
+        newProfessor.setBalance(5000L);
 
         when(professorRepository.findById(1L)).thenReturn(Optional.of(existingProfessor));
         when(professorRepository.save(any(Professor.class))).thenReturn(existingProfessor);
@@ -102,7 +92,7 @@ class ProfessorServiceTest {
 
         assertEquals("Updated Name", result.getName());
         assertEquals("Department Name", result.getDepartment().getName());
-        assertEquals(5000.0, result.getBalance());
+        assertEquals(5000L, result.getBalance());
         verify(professorRepository, times(1)).findById(1L);
         verify(professorRepository, times(1)).save(existingProfessor);
     }

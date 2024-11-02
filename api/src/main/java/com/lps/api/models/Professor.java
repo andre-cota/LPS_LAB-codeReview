@@ -25,7 +25,7 @@ public class Professor extends NaturalPerson {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    public Professor(String name, String email, String password, String cpf, Double balance) {
+    public Professor(String name, String email, String password, String cpf, Long balance) {
         super(name, email, password, cpf, balance);
     }
 }

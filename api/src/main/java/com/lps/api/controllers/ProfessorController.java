@@ -1,8 +1,11 @@
 package com.lps.api.controllers;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.lps.api.dtos.SendCoinsRequestDTO;
 import com.lps.api.models.Professor;
 import com.lps.api.services.ProfessorService;
 
@@ -22,8 +25,8 @@ public class ProfessorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Professor> getProfessorById(@PathVariable Long id) {
-        Optional<Professor> professor = professorService.findById(id);
-        return professor.isPresent() ? ResponseEntity.ok().body(professor.get()) : ResponseEntity.notFound().build();
+        Professor professor = professorService.findById(id);
+        return ResponseEntity.ok().body(professor);
     }
 
     @PostMapping
@@ -40,5 +43,11 @@ public class ProfessorController {
     public ResponseEntity<Void> deleteProfessor(@PathVariable Long id) {
         professorService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/sendCoins")
+    public ResponseEntity<Professor> sendCoins(@RequestBody SendCoinsRequestDTO sendCoinsRequestDTO) throws BadRequestException {
+        Professor professor = professorService.sendCoins(sendCoinsRequestDTO);
+        return ResponseEntity.ok().body(professor);
     }
 }

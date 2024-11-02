@@ -15,7 +15,7 @@ class ProfessorTest {
         department.setId(1L);
         department.setName("Computer Science");
 
-        professor = new Professor("John Doe", "john@example.com", "securePassword", "12345678900", 5000.0);
+        professor = new Professor("John Doe", "john@example.com", "securePassword", "12345678900", 5000L);
         professor.setDepartment(department);
     }
 
@@ -25,7 +25,7 @@ class ProfessorTest {
         assertEquals("john@example.com", professor.getEmail());
         assertEquals("securePassword", professor.getPassword());
         assertEquals("12345678900", professor.getCpf());
-        assertEquals(5000.0, professor.getBalance());
+        assertEquals(5000L, professor.getBalance());
         assertEquals(department, professor.getDepartment());
     }
 

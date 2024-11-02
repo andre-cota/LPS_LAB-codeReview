@@ -86,7 +86,7 @@ class CompanyServiceTest {
     @Test
     void testSaveCompany() {
         // Mock data
-        Company company = new Company(1L, "Company A", null, null);
+        Company company = new Company(1L, "Company A", null, "123");
         when(companyRepository.save(company)).thenReturn(company);
 
         // Call the method to be tested

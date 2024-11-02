@@ -102,6 +102,7 @@ class StudentServiceTest {
         when(studentDto.courseId()).thenReturn(1L); // Mock course ID
         when(studentDto.name()).thenReturn("John Doe"); // Mock name
         when(studentDto.cpf()).thenReturn("12345678900"); // Mock CPF
+        when(studentDto.password()).thenReturn("123");
 
         // Mock Course, Address, and Student objects
         Course course = new Course();

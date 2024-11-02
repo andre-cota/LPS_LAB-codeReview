@@ -12,7 +12,7 @@ class StudentRegisterDtoTest {
         String email = "john@example.com";
         String password = "securePassword";
         String cpf = "12345678900";
-        Double balance = 1000.0;
+        Long balance = 1000L;
         String rg = "MG1234567";
         Long courseId = 1L;
         Address address = new Address(courseId, "Street", null, "City", "State", "Zip", rg, rg);
@@ -35,10 +35,10 @@ class StudentRegisterDtoTest {
         Address address = new Address(null, "Street", null, "City", "State", "Zip", null, null);
         StudentRegisterDto dto1 = new StudentRegisterDto(
                 "John Doe", "john@example.com", "securePassword", 
-                "12345678900", 1000.0, "MG1234567", 1L, address);
+                "12345678900", 1000L, "MG1234567", 1L, address);
         StudentRegisterDto dto2 = new StudentRegisterDto(
                 "John Doe", "john@example.com", "securePassword", 
-                "12345678900", 1000.0, "MG1234567", 1L, address);
+                "12345678900", 1000L, "MG1234567", 1L, address);
 
         assertEquals(dto1, dto2);
     }
@@ -48,10 +48,10 @@ class StudentRegisterDtoTest {
         Address address = new Address(null, "Street", null, "City", "State", "Zip", null, null);
         StudentRegisterDto dto1 = new StudentRegisterDto(
                 "John Doe", "john@example.com", "securePassword", 
-                "12345678900", 1000.0, "MG1234567", 1L, address);
+                "12345678900", 1000L, "MG1234567", 1L, address);
         StudentRegisterDto dto2 = new StudentRegisterDto(
                 "John Doe", "john@example.com", "securePassword", 
-                "12345678900", 1000.0, "MG1234567", 1L, address);
+                "12345678900", 1000L, "MG1234567", 1L, address);
 
         assertEquals(dto1.hashCode(), dto2.hashCode());
     }

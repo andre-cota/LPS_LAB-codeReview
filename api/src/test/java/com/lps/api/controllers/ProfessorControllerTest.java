@@ -11,10 +11,12 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class ProfessorControllerTest {
@@ -44,21 +46,12 @@ public class ProfessorControllerTest {
     @Test
     public void testGetProfessorById_Found() {
         Professor professor = new Professor();
-        when(professorService.findById(1L)).thenReturn(Optional.of(professor));
+        when(professorService.findById(1L)).thenReturn(professor);
 
         ResponseEntity<Professor> response = professorController.getProfessorById(1L);
 
         assertEquals(200, response.getStatusCode().value());
         assertEquals(professor, response.getBody());
-    }
-
-    @Test
-    public void testGetProfessorById_NotFound() {
-        when(professorService.findById(1L)).thenReturn(Optional.empty());
-
-        ResponseEntity<Professor> response = professorController.getProfessorById(1L);
-
-        assertEquals(404, response.getStatusCode().value());
     }
 
     @Test

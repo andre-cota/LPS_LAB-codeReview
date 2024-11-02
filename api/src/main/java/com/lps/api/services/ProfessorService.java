@@ -3,10 +3,13 @@ package com.lps.api.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lps.api.dtos.SendCoinsRequestDTO;
 import com.lps.api.models.Professor;
+import com.lps.api.models.Student;
 import com.lps.api.repositories.ProfessorRepository;
 
 import jakarta.transaction.Transactional;
@@ -17,12 +20,15 @@ public class ProfessorService {
     @Autowired
     private ProfessorRepository professorRepository;
 
+    @Autowired
+    private StudentService studentService;
+
     public List<Professor> findAll() {
         return professorRepository.findAll();
     }
 
-    public Optional<Professor> findById(Long id) {
-        return professorRepository.findById(id);
+    public Professor findById(Long id) {
+        return professorRepository.findById(id).get();
     }
 
     public Professor save(Professor professor) {
@@ -45,6 +51,24 @@ public class ProfessorService {
         } else {
             throw new RuntimeException("Professor not found with id " + id);
         }
+    }
+
+    public Professor sendCoins(SendCoinsRequestDTO sendCoinsRequestDTO) throws BadRequestException {
+        Professor professor = this.findById(sendCoinsRequestDTO.professorId());
+        Student student = this.studentService.findById(sendCoinsRequestDTO.studentId());
+
+        Long quantity = sendCoinsRequestDTO.amount();
+        if (quantity <= 0 || quantity > professor.getBalance()) {
+            throw new BadRequestException("Numero de moedas inválido.");
+        }
+
+        student.setBalance(student.getBalance() + quantity);
+        studentService.update(student);
+
+        professor.setBalance(professor.getBalance() - quantity);
+        this.professorRepository.save(professor);
+
+        return professor;
     }
 
 }

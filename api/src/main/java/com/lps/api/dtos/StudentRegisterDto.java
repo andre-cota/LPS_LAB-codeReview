@@ -7,7 +7,7 @@ public record StudentRegisterDto(
         String email,
         String password,
         String cpf,
-        Double balance,
+        Long balance,
         String rg,
         Long courseId,
         Address address) {

@@ -14,12 +14,12 @@ public class StudentResponseDTO {
     private String name;
     private String email;
     private String cpf;
-    private Double balance;
+    private Long balance;
     private String rg;
     private Course course;
     private Address address;
 
-    public StudentResponseDTO(String name, String email, String cpf, Double balance, String rg, Course course, Address address) {
+    public StudentResponseDTO(String name, String email, String cpf, Long balance, String rg, Course course, Address address) {
         this.name = name;
         this.email = email;
         this.cpf = cpf;

@@ -19,8 +19,10 @@ import com.lps.api.models.Company;
 import com.lps.api.models.Course;
 import com.lps.api.models.Department;
 import com.lps.api.models.Institution;
+import com.lps.api.models.Professor;
 import com.lps.api.repositories.DepartmentRepository;
 import com.lps.api.repositories.InstitutionRepository;
+import com.lps.api.repositories.ProfessorRepository;
 import com.lps.api.services.CompanyService;
 import com.lps.api.services.CourseService;
 import com.lps.api.services.StudentService;
@@ -44,6 +46,9 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
 
         @Autowired
         private StudentService studentService;
+
+        @Autowired
+        private ProfessorRepository professorRepository;
 
         @Autowired
         private final PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -76,8 +81,12 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                 Course course1 = new Course(null, "Engenharia de Software", department1);
                 course1 = courseService.save(course1);
 
-                StudentRegisterDto student1 = new StudentRegisterDto("Pedro", "Pedronll@outlook.com", "123", "123", 20.00, "123", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
+                StudentRegisterDto student1 = new StudentRegisterDto("Pedro", "Pedronll@outlook.com", "123", "123", 20L, "123", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
                 studentService.save(student1);
+
+                Professor professor = new Professor("Professor Pedro", "123@gmail.com", "1234", "934571238", 100L);
+                professor.setDepartment(department1);
+                this.professorRepository.save(professor);
                 
         }
 }

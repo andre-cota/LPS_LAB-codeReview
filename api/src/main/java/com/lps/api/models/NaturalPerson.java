@@ -27,9 +27,9 @@ public class NaturalPerson extends User {
     private String cpf;
 
     @Column(name = "balance", nullable = false)
-    private Double balance;
+    private Long balance;
 
-    public NaturalPerson(String name, String email, String password, String cpf, Double balance) {
+    public NaturalPerson(String name, String email, String password, String cpf, Long balance) {
         super(name, email, password);
         this.cpf = cpf;
         this.balance = balance;

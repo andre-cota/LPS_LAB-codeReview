@@ -65,7 +65,7 @@ public class StudentControllerTest {
         Long id = 1L;
         Student student = new Student(
                 "John Doe", "john@example.com", "password123", "12345678901",
-                100.0, "987654321", null, null
+                100L, "987654321", null, null
         );
         when(studentService.findById(id)).thenReturn(student);
 
@@ -79,7 +79,7 @@ public class StudentControllerTest {
     public void testSave() throws Exception {
         Student student = new Student(
                 "Jane Doe", "jane@example.com", "securePass", "10987654321",
-                200.0, "123456789", null, null
+                200L, "123456789", null, null
         );
         when(studentService.save(any(StudentRegisterDto.class))).thenReturn(student);
 

@@ -75,4 +75,8 @@ public class StudentService {
         studentRepository.delete(student);
     }
 
+    public void update(Student student){
+        studentRepository.save(student);
+    }
+
 }

@@ -37,7 +37,7 @@ public class Student extends NaturalPerson {
     // @JsonIgnore
     // private List<Purchases> purchases;
 
-    public Student(String name, String email, String password, String cpf, Double balance, String rg, Address address,
+    public Student(String name, String email, String password, String cpf, Long balance, String rg, Address address,
             Course course) {
         super(name, email, password, cpf, balance);
         this.rg = rg;
