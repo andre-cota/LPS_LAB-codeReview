@@ -55,12 +55,23 @@ const Login: React.FC = () => {
     api.post('/auth/login', { email, password })
       .then((response) => {
         const { accessToken } = response.data;
+        const { userType } = response.data;
         
         localStorage.setItem('user', JSON.stringify({ accessToken }));
   
         showNotification({ message: 'Login realizado com sucesso', type: 'success' });
-        
-        navigate('/dashboard');
+
+        switch (userType) {
+          case 'isStudent':
+            navigate('/notImplemented');
+            break;
+          case 'isEnterprise':
+            navigate('/notImplemented');
+            break;
+          case 'isTeacher':
+            navigate('/teacher/dashboard');
+            break;
+        }
       })
       .catch((error) => {
         showNotification({ message: 'Erro ao tentar realizar o login', type: 'error' });

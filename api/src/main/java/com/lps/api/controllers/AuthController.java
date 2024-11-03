@@ -20,6 +20,7 @@ import com.lps.api.dtos.ForgetPasswordDTO;
 import com.lps.api.dtos.auth.LoginRequest;
 import com.lps.api.dtos.auth.LoginResponse;
 import com.lps.api.models.NaturalPerson;
+import com.lps.api.models.Student;
 import com.lps.api.models.User;
 import com.lps.api.security.JwtTokenProvider;
 import com.lps.api.services.EmailSenderService;
@@ -49,6 +50,9 @@ public class AuthController {
                         loginRequest.email(),
                         loginRequest.password()));
         String userType = (user instanceof NaturalPerson) ? "isStudentOrTeacher" : "isEnterprise";
+        if(!userType.equals("isEnterprise")) {
+            userType = (user instanceof Student) ? "isStudent" : "isTeacher";
+        }
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new LoginResponse(jwt, userType));
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -84,7 +85,7 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                 StudentRegisterDto student1 = new StudentRegisterDto("Pedro", "Pedronll@outlook.com", "123", "123", 20L, "123", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
                 studentService.save(student1);
 
-                Professor professor = new Professor("Professor Pedro", "123@gmail.com", "1234", "934571238", 100L);
+                Professor professor = new Professor("Professor Pedro", "123@gmail.com", encoder.encode("1234"), "934571238", 100L);
                 professor.setDepartment(department1);
                 this.professorRepository.save(professor);
                 
