@@ -18,14 +18,16 @@ public class StudentResponseDTO {
     private String rg;
     private Course course;
     private Address address;
+    private Long id;
 
-    public StudentResponseDTO(String name, String email, String cpf, Long balance, String rg, Course course, Address address) {
-        this.name = name;
-        this.email = email;
-        this.cpf = cpf;
-        this.balance = balance;
-        this.rg = rg;
-        this.course = course;
-        this.address = address;
-    }
+    public StudentResponseDTO(String name, String email, String cpf, Long balance, String rg, Course course, Address address, Long id) {
+            this.name = name;
+            this.email = email;
+            this.cpf = cpf;
+            this.balance = balance;
+            this.rg = rg;
+            this.course = course;
+            this.address = address;
+            this.id = id;
+        }
 }

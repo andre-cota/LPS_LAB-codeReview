@@ -56,8 +56,11 @@ const Login: React.FC = () => {
       .then((response) => {
         const { accessToken } = response.data;
         const { userType } = response.data;
+        const { id } = response.data;
         
         localStorage.setItem('user', JSON.stringify({ accessToken }));
+        localStorage.setItem('userId', JSON.stringify({ id }))
+
   
         showNotification({ message: 'Login realizado com sucesso', type: 'success' });
 

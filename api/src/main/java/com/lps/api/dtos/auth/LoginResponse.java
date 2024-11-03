@@ -12,12 +12,14 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
     private String accessToken;
     private String userType;
+    private Long id;
     @Builder.Default
     private String tokenType = "Bearer";
 
-    public LoginResponse(String accessToken, String userType) {
+    public LoginResponse(String accessToken, String userType, Long id) {
         this.accessToken = accessToken;
         this.userType = userType;
+        this.id = id;
         this.tokenType = "Bearer";
     }
 }

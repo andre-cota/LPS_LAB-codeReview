@@ -27,9 +27,5 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
-
-    public String getDepartmentName() {
-        return this.department.getName();
-    }
 }
 

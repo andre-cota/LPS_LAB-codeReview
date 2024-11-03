@@ -25,7 +25,7 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    public ResponseEntity<List<StudentResponseDTO>> findAll() {
+    public ResponseEntity<List<StudentResponseDTO>> findAll() {        
         List<Student> savedStudent = studentService.findAll();
         List<StudentResponseDTO> response = savedStudent.stream().map(student -> new StudentResponseDTO(
             student.getName(), 
@@ -34,7 +34,8 @@ public class StudentController {
             student.getBalance(),
             student.getRg(),
             student.getCourse(),
-            student.getAddress())).toList();
+            student.getAddress(),
+            student.getId())).toList();
         return ResponseEntity.ok(response);
     }
 
@@ -48,7 +49,8 @@ public class StudentController {
             student.getBalance(),
             student.getRg(),
             student.getCourse(),
-            student.getAddress())).toList();
+            student.getAddress(),
+            student.getId())).toList();
         return ResponseEntity.ok(response);
     }
 
@@ -62,7 +64,8 @@ public class StudentController {
             savedStudent.getBalance(),
             savedStudent.getRg(),
             savedStudent.getCourse(),
-            savedStudent.getAddress());
+            savedStudent.getAddress(),
+            savedStudent.getId());
         
         return ResponseEntity.ok(response);
     }
@@ -77,7 +80,8 @@ public class StudentController {
             savedStudent.getBalance(),
             savedStudent.getRg(),
             savedStudent.getCourse(),
-            savedStudent.getAddress());
+            savedStudent.getAddress(),
+            savedStudent.getId());
         return ResponseEntity.ok(response);
     }
 

@@ -15,7 +15,7 @@ class LoginResponseTest {
 
     @Test
     void testAllArgsConstructor() {
-        LoginResponse response = new LoginResponse("token123", "admin", "Bearer");
+        LoginResponse response = new LoginResponse("token123", "admin", 1L, "Bearer" );
         assertEquals("token123", response.getAccessToken());
         assertEquals("admin", response.getUserType());
         assertEquals("Bearer", response.getTokenType());
@@ -23,7 +23,7 @@ class LoginResponseTest {
 
     @Test
     void testPartialConstructor() {
-        LoginResponse response = new LoginResponse("token123", "admin");
+        LoginResponse response = new LoginResponse("token123", "admin", 1L);
         assertEquals("token123", response.getAccessToken());
         assertEquals("admin", response.getUserType());
         assertEquals("Bearer", response.getTokenType());

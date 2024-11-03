@@ -4,6 +4,8 @@ import { RegisterAndLoginLayout } from "../layouts/RegisterAndLoginLayout";
 import RegisterStudent from "../pages/studentRegister";
 import EnterpriseRegister from "../pages/enterpriseRegister";
 import Login from "../pages/login";
+import TeacherDashboard from "../pages/teacher/TeacherDashboard";
+import { Typography } from "@mui/material";
 
 const isAuthenticated = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -32,6 +34,14 @@ const SystemRoutes = createBrowserRouter([
         element: <EnterpriseRegister />
       }
     ]
+  },
+  {
+    path: '/teacher/dashboard',
+    element: <TeacherDashboard />
+  },
+  {
+    path: '/teacher/extrato',
+    element: <div style={{ marginLeft: '260px', padding: '2rem' }}><Typography variant="h5">Extrato - Not Implemented</Typography></div>
   }
 ]);
 

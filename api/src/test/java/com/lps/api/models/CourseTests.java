@@ -39,9 +39,4 @@ class CourseTest {
         assertEquals(department, course.getDepartment());
     }
 
-    @Test
-    void testGetDepartmentName() {
-        assertEquals("Computer Science", course.getDepartmentName());
-    }
-
 }
