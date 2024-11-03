@@ -52,12 +52,20 @@ interface Student {
     course: Course;
 }
 
+interface DonationRequest {
+    id: number;
+    donationValue: number;
+    professor: Professor;
+    student: Student;
+    date: number[];
+}
+
 interface Donation {
     id: number;
     donationValue: number;
     professor: Professor;
     student: Student;
-    date: string;
+    date: Date;
 }
 
 const Extrato: React.FC = () => {
@@ -93,7 +101,13 @@ const Extrato: React.FC = () => {
         setLoading(true);
         api.get(endpoint)
             .then((response) => {
-                setDonations(response.data);
+                const dados: DonationRequest[] = response.data;
+                const formattedData = dados.map(item => ({
+                    ...item,
+                    date: new Date(item.date[0], item.date[1] - 1, item.date[2], 
+                                item.date[3], item.date[4], item.date[5])
+                }));
+                setDonations(formattedData);
                 setLoading(false);
             })
             .catch(() => {

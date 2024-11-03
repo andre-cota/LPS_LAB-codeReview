@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer, List, ListItem, ListItemText, Avatar, Divider, Typography, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LeftNavigationMenuProps {
   onLogout: () => void;
@@ -8,7 +8,21 @@ interface LeftNavigationMenuProps {
 }
 
 const LeftNavigationMenu: React.FC<LeftNavigationMenuProps> = ({ onLogout, userName }) => {
+  const [dashboardRoute, setDashboardRoute] = useState("/");
+  const [extratoRoute, setExtratoRoute] = useState("/");
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if(location.pathname.startsWith("/teacher")) {
+      setDashboardRoute("/teacher/dashboard");
+      setExtratoRoute("/teacher/extrato");
+    }else{
+      setDashboardRoute("/student/dashboard");
+      setExtratoRoute("/student/extrato");
+    }
+  }, [location.pathname])
 
   return (
     <Drawer variant="permanent" anchor="left">
@@ -17,10 +31,10 @@ const LeftNavigationMenu: React.FC<LeftNavigationMenuProps> = ({ onLogout, userN
           Menu
         </Typography>
         <List>
-          <ListItem onClick={() => navigate('/teacher/dashboard')}>
+          <ListItem onClick={() => navigate(dashboardRoute)}>
             <ListItemText primary="Dashboard" />
           </ListItem>
-          <ListItem onClick={() => navigate('/teacher/extrato')}>
+          <ListItem onClick={() => navigate(extratoRoute)}>
             <ListItemText primary="Extrato" />
           </ListItem>
           <Divider />
