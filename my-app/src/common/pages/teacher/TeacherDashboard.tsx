@@ -4,6 +4,7 @@ import { Container, Typography, Card, CardContent, Table, TableBody, TableCell, 
 import api from '../../api'; // Adjust the import to your API setup
 import LeftNavigationMenu from '../../components/teacherLeftNavMenu/LeftNavigationMenu';
 import DonateModal from '../../components/donateModal/DonateModal';
+import { useNavigate } from 'react-router';
 
 interface Institution {
     id: number;
@@ -62,6 +63,12 @@ const TeacherDashboard: React.FC = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
 
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/login');
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -102,7 +109,7 @@ const TeacherDashboard: React.FC = () => {
 
     return (
         <Container>
-            <LeftNavigationMenu onLogout={() => localStorage.clear()} userName={professor.name || 'User'} />
+            <LeftNavigationMenu onLogout={handleLogout} userName={professor.name || 'User'} />
             <Typography variant="h4" gutterBottom>Teacher Dashboard</Typography>
 
             {/* Balance Card */}

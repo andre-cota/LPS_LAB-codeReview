@@ -6,6 +6,7 @@ import EnterpriseRegister from "../pages/enterpriseRegister";
 import Login from "../pages/login";
 import TeacherDashboard from "../pages/teacher/TeacherDashboard";
 import { Typography } from "@mui/material";
+import Extrato from "../pages/Extrato";
 
 const isAuthenticated = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -41,7 +42,11 @@ const SystemRoutes = createBrowserRouter([
   },
   {
     path: '/teacher/extrato',
-    element: <div style={{ marginLeft: '260px', padding: '2rem' }}><Typography variant="h5">Extrato - Not Implemented</Typography></div>
+    element: <Extrato />
+  },
+  {
+    path: '/student/extrato',
+    element: <Extrato />
   }
 ]);
 

@@ -66,7 +66,7 @@ const Login: React.FC = () => {
 
         switch (userType) {
           case 'isStudent':
-            navigate('/notImplemented');
+            navigate('/student/extrato');
             break;
           case 'isEnterprise':
             navigate('/notImplemented');
