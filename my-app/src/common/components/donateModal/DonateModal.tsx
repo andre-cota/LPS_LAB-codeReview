@@ -43,13 +43,14 @@ const DonateModal: React.FC<DonateModalProps> = ({ open, onClose, professorId, s
 
   const handleConfirm = async () => {
     if (amount && amount > 0) {
+        let requestBody = {
+            professorId: professorId,
+            studentId: studentId,
+            amount: amount
+        }
       try {
-        await api.post('/professors/sendCoins', {
-          professorId,
-          studentId,
-          amount,
-        }).then((response) => {
-            onDonationSuccess(response.data)
+        await api.post('/donations', requestBody).then((response) => {
+            onDonationSuccess(response.data.professor)
             });
         toast.success('Donation successful');
         onClose();

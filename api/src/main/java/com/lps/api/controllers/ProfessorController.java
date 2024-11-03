@@ -47,10 +47,4 @@ public class ProfessorController {
         professorService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-    @PostMapping("/sendCoins")
-    public ResponseEntity<Professor> sendCoins(@RequestBody SendCoinsRequestDTO sendCoinsRequestDTO) throws BadRequestException {
-        Professor professor = professorService.sendCoins(sendCoinsRequestDTO);
-        return ResponseEntity.ok().body(professor);
-    }
 }

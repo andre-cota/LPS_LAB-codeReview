@@ -1,11 +1,9 @@
 package com.lps.api.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.lps.api.dtos.SendCoinsRequestDTO;
@@ -56,23 +54,4 @@ public class ProfessorService {
 
         return professorRepository.save(existingProfessor);
     }
-
-    public Professor sendCoins(SendCoinsRequestDTO sendCoinsRequestDTO) throws BadRequestException {
-        Professor professor = this.findById(sendCoinsRequestDTO.professorId());
-        Student student = this.studentService.findById(sendCoinsRequestDTO.studentId());
-
-        Long quantity = sendCoinsRequestDTO.amount();
-        if (quantity <= 0 || quantity > professor.getBalance()) {
-            throw new BadRequestException("Numero de moedas inválido.");
-        }
-
-        student.setBalance(student.getBalance() + quantity);
-        studentService.update(student);
-
-        professor.setBalance(professor.getBalance() - quantity);
-        this.professorRepository.save(professor);
-
-        return professor;
-    }
-
 }
