@@ -7,6 +7,7 @@ import Login from "../pages/login";
 import TeacherDashboard from "../pages/teacher/TeacherDashboard";
 import { Typography } from "@mui/material";
 import Extrato from "../pages/Extrato";
+import { EnterpriseDashboard } from "../pages/enterpriseDashboard/EnterpriseDashboard";
 
 const isAuthenticated = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -16,7 +17,7 @@ const isAuthenticated = () => {
 const SystemRoutes = createBrowserRouter([
   {
     path: "/",
-    element: isAuthenticated() ? <App /> : <Navigate to="/login" />
+    element: <Navigate to="/login" />
   },
   {
     path: '/login',
@@ -47,6 +48,10 @@ const SystemRoutes = createBrowserRouter([
   {
     path: '/student/extrato',
     element: <Extrato />
+  },
+  {
+    path: '/enterprise/dashboard',
+    element: <EnterpriseDashboard />
   }
 ]);
 

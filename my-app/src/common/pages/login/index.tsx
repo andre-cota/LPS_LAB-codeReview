@@ -69,7 +69,7 @@ const Login: React.FC = () => {
             navigate('/student/extrato');
             break;
           case 'isEnterprise':
-            navigate('/notImplemented');
+            navigate('/enterprise/dashboard');
             break;
           case 'isTeacher':
             navigate('/teacher/dashboard');

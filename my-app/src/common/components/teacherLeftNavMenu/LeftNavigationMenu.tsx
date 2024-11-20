@@ -10,17 +10,20 @@ interface LeftNavigationMenuProps {
 const LeftNavigationMenu: React.FC<LeftNavigationMenuProps> = ({ onLogout, userName }) => {
   const [dashboardRoute, setDashboardRoute] = useState("/");
   const [extratoRoute, setExtratoRoute] = useState("/");
+  const [isCompany, setIsCompany] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if(location.pathname.startsWith("/teacher")) {
+    if (location.pathname.startsWith("/teacher")) {
       setDashboardRoute("/teacher/dashboard");
       setExtratoRoute("/teacher/extrato");
-    }else{
+    } else if (location.pathname.startsWith("/student")) {
       setDashboardRoute("/student/dashboard");
       setExtratoRoute("/student/extrato");
+    } else {
+      setIsCompany(true);
     }
   }, [location.pathname])
 
@@ -31,12 +34,17 @@ const LeftNavigationMenu: React.FC<LeftNavigationMenuProps> = ({ onLogout, userN
           Menu
         </Typography>
         <List>
-          <ListItem onClick={() => navigate(dashboardRoute)}>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem onClick={() => navigate(extratoRoute)}>
-            <ListItemText primary="Extrato" />
-          </ListItem>
+          {!isCompany && (
+            <>
+              <ListItem onClick={() => navigate(dashboardRoute)}>
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+              <ListItem onClick={() => navigate(extratoRoute)}>
+                <ListItemText primary="Extrato" />
+              </ListItem>
+            </>
+          )}
+
           <Divider />
           <ListItem onClick={onLogout}>
             <Avatar sx={{ marginRight: 1 }} />
