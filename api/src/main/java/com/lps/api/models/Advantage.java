@@ -42,4 +42,12 @@ public class Advantage {
     @ManyToOne(fetch = FetchType.EAGER) 
     @JoinColumn(name = "company_id", nullable = false) 
     private Company company;
+
+    public Advantage(String name, String description, Integer advantageValue, String urlImage, Company company) {
+        this.name = name;
+        this.description = description;
+        this.advantageValue = advantageValue;
+        this.urlImage = urlImage;
+        this.company = company;
+    }
 }

@@ -55,4 +55,12 @@ public class AdvantageService {
             return null;
         }
     }
+
+    public List<Advantage> findAll() {
+        return advantageRepository.findAll();
+    }
+
+    public Advantage findById(Long id) {
+        return advantageRepository.findById(id).get();
+    }
 }

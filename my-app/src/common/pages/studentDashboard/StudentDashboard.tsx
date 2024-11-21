@@ -1,20 +1,19 @@
-// TeacherDashboard.tsx
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, CircularProgress, Alert, Box } from '@mui/material';
-import api from '../../api'; // Adjust the import to your API setup
+import api from '../../api';
 import LeftNavigationMenu from '../../components/teacherLeftNavMenu/LeftNavigationMenu';
 import DonateModal from '../../components/donateModal/DonateModal';
 import { useNavigate } from 'react-router';
-import { Address } from '../../types/address';
 import { Student } from '../../types/student';
-import { Professor } from '../../types/Professor';
+import { Advantage } from '../../types/Advantage';
+import { TradeAdvantageModal } from './TradeAdvantageModal';
 
 
-const TeacherDashboard: React.FC = () => {
-    const [students, setStudents] = useState<Student[]>([]);
-    const [professor, setProfessor] = useState<Professor>({} as Professor);
+const StudentDashboard: React.FC = () => {
+    const [student, setStudent] = useState<Student>({} as Student);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [advantages, setAdvantages] = useState<Advantage[]>([]);
 
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
@@ -28,26 +27,24 @@ const TeacherDashboard: React.FC = () => {
 
     useEffect(() => {
         setLoading(true);
-        api.get('/students')
+        api.get('/advantages')
             .then((response) => {
-                setStudents(response.data);
-                setLoading(false);
+                setAdvantages(response.data);
             })
             .catch(() => {
-                setError('Failed to load students');
-                setLoading(false);
+                setError('Failed to load advantages');
             });
 
         const userIdObject = JSON.parse(localStorage.getItem('userId') || '0');
         const id = userIdObject.id;
 
-        api.get(`/professors/${id}`)
+        api.get(`/students/${id}`)
             .then((response) => {
-                setProfessor(response.data);
+                setStudent(response.data);
                 setLoading(false);
             })
             .catch(() => {
-                setError('Failed to load professor');
+                setError('Failed to load student');
             });
     }, []);
 
@@ -56,46 +53,46 @@ const TeacherDashboard: React.FC = () => {
         setModalOpen(true);
     };
 
-    const onDonationSuccess = (data: Professor) => {
-        setProfessor(data);
-    }
-
     if (loading) return <CircularProgress />;
     if (error) return <Alert severity="error">{error}</Alert>;
 
     return (
         <Container>
-            <LeftNavigationMenu onLogout={handleLogout} userName={professor.name || 'User'} />
-            <Typography variant="h4" gutterBottom>Teacher Dashboard</Typography>
+            <LeftNavigationMenu onLogout={handleLogout} userName={student.name || 'User'} />
+            <Typography variant="h4" gutterBottom>Student Dashboard</Typography>
 
-            {/* Balance Card */}
             <Card sx={{ mb: 4, border: '1px solid #ccc' }}>
                 <CardContent>
                     <Typography variant="h6">Saldo atual</Typography>
                     <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mt: 2 }}>
-                        {professor.balance ? `${professor.balance}` : '0'}
+                        {student.balance ? `${student.balance}` : '0'}
                     </Typography>
                 </CardContent>
             </Card>
-
-            {/* Students Table */}
+            <Typography variant="h6" gutterBottom>Tabela de vantagens</Typography>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <TableCell>Image</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell>Balance</TableCell>
+                            <TableCell>Description</TableCell>
+                            <TableCell>Price</TableCell>
                             <TableCell>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {students.map((student) => (
-                            <TableRow key={student.id}>
-                                <TableCell>{student.name}</TableCell>
-                                <TableCell>{student.balance}</TableCell>
+                        {advantages.map((advantage) => (
+                            <TableRow key={advantage.id}>
+                                <TableCell>
+                                    <img src={advantage.urlImage} alt={advantage.name} style={{ width: '50px', height: '50px' }} />
+                                </TableCell>
+                                <TableCell>{advantage.name}</TableCell>
+                                <TableCell>{advantage.description}</TableCell>
+                                <TableCell>{advantage.advantageValue}</TableCell>
                                 <TableCell>
                                     <Button variant="contained" onClick={() => handleDonateClick(student.id)}>
-                                        Doar
+                                        Trocar
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -104,16 +101,13 @@ const TeacherDashboard: React.FC = () => {
                 </Table>
             </TableContainer>
             {selectedStudentId !== null && (
-                <DonateModal
-                    open={modalOpen}
+                <TradeAdvantageModal
+                    advantage={advantages[0]}
                     onClose={() => setModalOpen(false)}
-                    professorId={professor.id}
-                    studentId={selectedStudentId}
-                    onDonationSuccess={onDonationSuccess}
                 />
             )}
         </Container>
     );
 };
 
-export default TeacherDashboard;
+export default StudentDashboard

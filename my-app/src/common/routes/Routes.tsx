@@ -8,6 +8,7 @@ import TeacherDashboard from "../pages/teacher/TeacherDashboard";
 import { Typography } from "@mui/material";
 import Extrato from "../pages/Extrato";
 import { EnterpriseDashboard } from "../pages/enterpriseDashboard/EnterpriseDashboard";
+import StudentDashboard from "../pages/studentDashboard/StudentDashboard";
 
 const isAuthenticated = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -52,6 +53,10 @@ const SystemRoutes = createBrowserRouter([
   {
     path: '/enterprise/dashboard',
     element: <EnterpriseDashboard />
+  },
+  {
+    path: '/student/dashboard',
+    element: <StudentDashboard />
   }
 ]);
 

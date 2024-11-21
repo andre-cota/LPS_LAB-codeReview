@@ -51,4 +51,10 @@ public class AdvantageController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<Advantage>> getAllAdvantages() {
+        List<Advantage> advantages = advantageService.findAll();
+        return ResponseEntity.ok().body(advantages);
+    }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, CircularProgress, Alert, TextField, TableSortLabel } from '@mui/material';
-import api from '../api'; 
+import api from '../api';
 import LeftNavigationMenu from '../components/teacherLeftNavMenu/LeftNavigationMenu';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -75,6 +75,7 @@ const Extrato: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [orderBy, setOrderBy] = useState<'date' | 'donationValue'>('date');
     const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
+    const [isStudent, setIsStudent] = useState(false);
 
     const [user, setUser] = useState<Professor>({} as Professor);
 
@@ -89,6 +90,7 @@ const Extrato: React.FC = () => {
         const endpoint = isTeacherExtrato ? `/donations/professor/${id}` : `/donations/student/${id}`;
 
         const userEndpoint = isTeacherExtrato ? `/professors/${id}` : `/students/${id}`;
+        setIsStudent(!isTeacherExtrato);
 
         api.get(userEndpoint)
             .then((response) => {
@@ -104,8 +106,8 @@ const Extrato: React.FC = () => {
                 const dados: DonationRequest[] = response.data;
                 const formattedData = dados.map(item => ({
                     ...item,
-                    date: new Date(item.date[0], item.date[1] - 1, item.date[2], 
-                                item.date[3], item.date[4], item.date[5])
+                    date: new Date(item.date[0], item.date[1] - 1, item.date[2],
+                        item.date[3], item.date[4], item.date[5])
                 }));
                 setDonations(formattedData);
                 setLoading(false);
@@ -146,10 +148,10 @@ const Extrato: React.FC = () => {
     }
     return (
         <Container>
-            <LeftNavigationMenu onLogout={handleLogout} userName={user.name || 'User'}/>
+            <LeftNavigationMenu onLogout={handleLogout} userName={user.name || 'User'} />
             <Typography variant="h4" gutterBottom>Extrato</Typography>
             <TextField
-                label="Search by Student Name"
+                label={isStudent ? "Search by Professor Name" : "Search by Student Name"}
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -160,8 +162,8 @@ const Extrato: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Student Name</TableCell>
-                            <TableCell>Course Name</TableCell>
+                            <TableCell>{isStudent ? "Professor Name" : "Student Name"}</TableCell>
+                            {!isStudent && <TableCell>Course Name</TableCell>}
                             <TableCell sortDirection={orderBy === 'date' ? orderDirection : false}>
                                 <TableSortLabel
                                     active={orderBy === 'date'}
@@ -185,8 +187,8 @@ const Extrato: React.FC = () => {
                     <TableBody>
                         {sortedDonations.map((donation) => (
                             <TableRow key={donation.id}>
-                                <TableCell>{donation.student.name}</TableCell>
-                                <TableCell>{donation.student.course.name}</TableCell>
+                                <TableCell>{isStudent ? donation.professor.name : donation.student.name}</TableCell>
+                                {!isStudent && <TableCell>{donation.student.course.name}</TableCell>}
                                 <TableCell>{new Date(donation.date).toLocaleDateString()}</TableCell>
                                 <TableCell>{donation.donationValue}</TableCell>
                             </TableRow>

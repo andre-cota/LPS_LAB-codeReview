@@ -16,14 +16,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.lps.api.dtos.StudentRegisterDto;
 import com.lps.api.models.Address;
+import com.lps.api.models.Advantage;
 import com.lps.api.models.Company;
 import com.lps.api.models.Course;
 import com.lps.api.models.Department;
 import com.lps.api.models.Institution;
 import com.lps.api.models.Professor;
+import com.lps.api.repositories.AdvantageRepository;
 import com.lps.api.repositories.DepartmentRepository;
 import com.lps.api.repositories.InstitutionRepository;
 import com.lps.api.repositories.ProfessorRepository;
+import com.lps.api.services.AdvantageService;
 import com.lps.api.services.CompanyService;
 import com.lps.api.services.CourseService;
 import com.lps.api.services.StudentService;
@@ -50,6 +53,9 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
 
         @Autowired
         private ProfessorRepository professorRepository;
+
+        @Autowired
+        private AdvantageRepository advantageRepository;
 
         @Autowired
         private final PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -88,6 +94,8 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                 Professor professor = new Professor("Professor Pedro", "123@gmail.com", encoder.encode("1234"), "934571238", 1000L);
                 professor.setDepartment(department1);
                 this.professorRepository.save(professor);
-                
+
+                Advantage advantage = new Advantage( "Vale Refeição", "Vale Refeição", 100, "https://picsum.photos/200", company1);
+                this.advantageRepository.save(advantage);
         }
 }

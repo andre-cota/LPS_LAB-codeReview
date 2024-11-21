@@ -3,6 +3,7 @@ import { Modal, Box, Typography, Button, TextField } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../api';
+import { Professor } from '../../types/Professor';
 
 interface DonateModalProps {
   open: boolean;
@@ -11,27 +12,6 @@ interface DonateModalProps {
   studentId: number;
   onDonationSuccess: (data: Professor) => void;
 }
-
-interface Institution {
-    id: number;
-    name: string;
-}
-
-interface Department {
-    id: number;
-    name: string;
-    institution: Institution;
-}
-
-interface Professor {
-    id: number;
-    name: string;
-    email: string;
-    cpf: string;
-    balance: number;
-    department: Department;
-}
-
 
 const DonateModal: React.FC<DonateModalProps> = ({ open, onClose, professorId, studentId, onDonationSuccess }) => {
   const [amount, setAmount] = useState<number | ''>('');

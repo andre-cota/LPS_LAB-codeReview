@@ -30,7 +30,7 @@ export const ConfirmInformation: React.FC<ConfirmInformationProps> = ({ student 
                 <strong>Balance:</strong> {student.balance}
             </Typography>
             <Typography variant="body1">
-                <strong>Course:</strong> {student.courseId?.toString() ?? 'N/A'}
+                <strong>Course:</strong> {student.course?.id.toString() ?? 'N/A'}
             </Typography>
         </Box>
     );
