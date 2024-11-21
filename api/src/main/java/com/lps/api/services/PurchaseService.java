@@ -35,6 +35,10 @@ public class PurchaseService {
         Student student = studentService.findById(request.studentId());
         Advantage advantage = advantageService.findById(request.advantageId());
     
+        if(student.getBalance() < request.price() * request.quantity()){
+            throw new RuntimeException("Saldo insuficiente");
+        }
+
         purchase.setStudent(student);
         purchase.setAdvantage(advantage);
         purchase.setQuantity(request.quantity());

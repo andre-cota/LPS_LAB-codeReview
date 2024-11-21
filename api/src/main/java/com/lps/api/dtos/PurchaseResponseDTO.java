@@ -5,7 +5,8 @@ import java.time.LocalDate;
 public record PurchaseResponseDTO(
     Long id,
     LocalDate date,
-    Integer price
+    Integer totalValue,
+    String name
 ) {
     
 }

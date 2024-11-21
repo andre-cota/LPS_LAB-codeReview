@@ -28,7 +28,8 @@ public class PurchasesController {
         List<PurchaseResponseDTO> response = purchases.stream().map(purchase -> new PurchaseResponseDTO(
             purchase.getId(),
             purchase.getDate(),
-            purchase.getPrice() * purchase.getQuantity()
+            purchase.getPrice() * purchase.getQuantity(),
+            purchase.getAdvantage().getName()
             )).toList();
         return ResponseEntity.ok(response);
     }

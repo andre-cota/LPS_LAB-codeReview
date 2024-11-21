@@ -3,73 +3,15 @@ import { Container, Typography, Table, TableBody, TableCell, TableContainer, Tab
 import api from '../api';
 import LeftNavigationMenu from '../components/teacherLeftNavMenu/LeftNavigationMenu';
 import { useLocation, useNavigate } from 'react-router';
-
-interface Institution {
-    id: number;
-    name: string;
-}
-
-interface Department {
-    id: number;
-    name: string;
-    institution: Institution;
-}
-
-interface Professor {
-    id: number;
-    name: string;
-    email: string;
-    cpf: string;
-    balance: number;
-    department: Department;
-}
-
-interface Address {
-    id: number;
-    street: string;
-    number: number;
-    complement: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    zipCode: string;
-}
-
-interface Course {
-    id: number;
-    name: string;
-    department: Department;
-}
-
-interface Student {
-    id: number;
-    name: string;
-    email: string;
-    cpf: string;
-    balance: number;
-    rg: string;
-    address: Address;
-    course: Course;
-}
-
-interface DonationRequest {
-    id: number;
-    donationValue: number;
-    professor: Professor;
-    student: Student;
-    date: number[];
-}
-
-interface Donation {
-    id: number;
-    donationValue: number;
-    professor: Professor;
-    student: Student;
-    date: Date;
-}
-
+import { Student } from '../types/student';
+import { Professor } from '../types/Professor';
+import { PurchaseResponseDTO } from '../types/PurchaseResponseDTO';
+import { Donation } from '../types/Donation';
+import { DonationResponse } from '../types/DonationResponse';
+ 
 const Extrato: React.FC = () => {
     const [donations, setDonations] = useState<Donation[]>([]);
+    const [advantages, setAdvantages] = useState<PurchaseResponseDTO[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>();
     const [searchTerm, setSearchTerm] = useState('');
@@ -77,7 +19,7 @@ const Extrato: React.FC = () => {
     const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
     const [isStudent, setIsStudent] = useState(false);
 
-    const [user, setUser] = useState<Professor>({} as Professor);
+    const [user, setUser] = useState<Student | Professor | null>(null);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -87,27 +29,21 @@ const Extrato: React.FC = () => {
         const id = userIdObject.id;
 
         const isTeacherExtrato = location.pathname === '/teacher/extrato';
-        const endpoint = isTeacherExtrato ? `/donations/professor/${id}` : `/donations/student/${id}`;
-
         const userEndpoint = isTeacherExtrato ? `/professors/${id}` : `/students/${id}`;
+        const donationsEndpoint = isTeacherExtrato ? `/donations/professor/${id}` : `/donations/student/${id}`;
+
         setIsStudent(!isTeacherExtrato);
 
         api.get(userEndpoint)
-            .then((response) => {
-                setUser(response.data);
-            })
-            .catch(() => {
-                setError('Failed to load user');
-            });
+            .then((response) => setUser(response.data))
+            .catch(() => setError('Failed to load user'));
 
-        setLoading(true);
-        api.get(endpoint)
+        api.get(donationsEndpoint)
             .then((response) => {
-                const dados: DonationRequest[] = response.data;
+                const dados: DonationResponse[] = response.data;
                 const formattedData = dados.map(item => ({
                     ...item,
-                    date: new Date(item.date[0], item.date[1] - 1, item.date[2],
-                        item.date[3], item.date[4], item.date[5])
+                    date: new Date(item.date[0], item.date[1] - 1, item.date[2], item.date[3], item.date[4], item.date[5])
                 }));
                 setDonations(formattedData);
                 setLoading(false);
@@ -116,21 +52,41 @@ const Extrato: React.FC = () => {
                 setError('Failed to load donations');
                 setLoading(false);
             });
+
+            if (!isTeacherExtrato) {
+                api.get(`/purchases/${id}`)
+                    .then((response) => {
+                        const formattedAdvantages = response.data.map((advantage: PurchaseResponseDTO) => ({
+                            ...advantage,
+                            date: new Date(
+                                advantage.date[0], // Year
+                                advantage.date[1] - 1, // Month (0-indexed)
+                                advantage.date[2] // Day
+                            ).toLocaleDateString('pt-BR') // Format as dd/mm/yyyy
+                        }));
+                        setAdvantages(formattedAdvantages);
+                    })
+                    .catch(() => setError('Failed to load advantages'));
+            }            
     }, [location.pathname]);
-
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleSortRequest = (property: 'date' | 'donationValue') => {
-        const isAsc = orderBy === property && orderDirection === 'asc';
-        setOrderDirection(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
 
     const filteredDonations = donations.filter(donation =>
         donation.student.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // const filteredDonations = isStudent
+    // ? [
+    //       ...donations.filter(donation =>
+    //           donation.professor.name.toLowerCase().includes(searchTerm.toLowerCase())
+    //       ),
+    //       ...advantages.filter(advantage =>
+    //           advantage.name.toLowerCase().includes(searchTerm.toLowerCase())
+    //       ),
+    //   ]
+    // : donations.filter(donation =>
+    //       donation.student.name.toLowerCase().includes(searchTerm.toLowerCase())
+    //   );
+
 
     const sortedDonations = [...filteredDonations].sort((a, b) => {
         if (orderBy === 'date') {
@@ -139,58 +95,52 @@ const Extrato: React.FC = () => {
         return (a.donationValue - b.donationValue) * (orderDirection === 'asc' ? 1 : -1);
     });
 
-    if (loading) return <CircularProgress />;
-    if (error) return <Alert severity="error">{error}</Alert>;
-
     const handleLogout = () => {
         localStorage.clear();
         navigate('/login');
-    }
+    };
+
+    if (loading) return <CircularProgress />;
+    if (error) return <Alert severity="error">{error}</Alert>;
+
     return (
         <Container>
-            <LeftNavigationMenu onLogout={handleLogout} userName={user.name || 'User'} />
+            <LeftNavigationMenu onLogout={handleLogout} userName={user?.name || 'User'} />
             <Typography variant="h4" gutterBottom>Extrato</Typography>
             <TextField
-                label={isStudent ? "Search by Professor Name" : "Search by Student Name"}
+                label={isStudent ? "Search by Professor or Advantage Name" : "Search by Student Name"}
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 value={searchTerm}
-                onChange={handleSearchChange}
+                onChange={(e) => setSearchTerm(e.target.value)}
             />
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>{isStudent ? "Professor Name" : "Student Name"}</TableCell>
+                            <TableCell>{isStudent ? "Professor Name / Advantage" : "Student Name"}</TableCell>
                             {!isStudent && <TableCell>Course Name</TableCell>}
-                            <TableCell sortDirection={orderBy === 'date' ? orderDirection : false}>
-                                <TableSortLabel
-                                    active={orderBy === 'date'}
-                                    direction={orderBy === 'date' ? orderDirection : 'asc'}
-                                    onClick={() => handleSortRequest('date')}
-                                >
-                                    Date
-                                </TableSortLabel>
-                            </TableCell>
-                            <TableCell sortDirection={orderBy === 'donationValue' ? orderDirection : false}>
-                                <TableSortLabel
-                                    active={orderBy === 'donationValue'}
-                                    direction={orderBy === 'donationValue' ? orderDirection : 'asc'}
-                                    onClick={() => handleSortRequest('donationValue')}
-                                >
-                                    Amount
-                                </TableSortLabel>
-                            </TableCell>
+                            <TableCell>Date</TableCell>
+                            <TableCell>Amount</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {sortedDonations.map((donation) => (
                             <TableRow key={donation.id}>
-                                <TableCell>{isStudent ? donation.professor.name : donation.student.name}</TableCell>
+                                <TableCell style={{ color: isStudent ? 'darkgreen' : undefined }}>
+                                    {isStudent ? donation.professor.name : donation.student.name}
+                                </TableCell>
                                 {!isStudent && <TableCell>{donation.student.course.name}</TableCell>}
                                 <TableCell>{new Date(donation.date).toLocaleDateString()}</TableCell>
                                 <TableCell>{donation.donationValue}</TableCell>
+                            </TableRow>
+                        ))}
+                        {isStudent && advantages.map((advantage) => (
+                            <TableRow key={advantage.id}>
+                                <TableCell style={{ color: 'red' }}>{advantage.name}</TableCell>
+                                <TableCell>{advantage.date}</TableCell>
+                                <TableCell>{advantage.totalValue}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

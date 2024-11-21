@@ -6,7 +6,7 @@ import DonateModal from '../../components/donateModal/DonateModal';
 import { useNavigate } from 'react-router';
 import { Student } from '../../types/student';
 import { Advantage } from '../../types/Advantage';
-import { TradeAdvantageModal } from './TradeAdvantageModal';
+import TradeAdvantageModal from './TradeAdvantageModal';
 
 
 const StudentDashboard: React.FC = () => {
@@ -16,7 +16,7 @@ const StudentDashboard: React.FC = () => {
     const [advantages, setAdvantages] = useState<Advantage[]>([]);
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
+    const [selectedAdvantage, setSelectedAdvantage] = useState<Advantage>({} as Advantage);
 
     const navigate = useNavigate();
 
@@ -48,8 +48,8 @@ const StudentDashboard: React.FC = () => {
             });
     }, []);
 
-    const handleDonateClick = (studentId: number) => {
-        setSelectedStudentId(studentId);
+    const openTradeModal = (advantage: Advantage) => {
+        setSelectedAdvantage(advantage);
         setModalOpen(true);
     };
 
@@ -91,7 +91,7 @@ const StudentDashboard: React.FC = () => {
                                 <TableCell>{advantage.description}</TableCell>
                                 <TableCell>{advantage.advantageValue}</TableCell>
                                 <TableCell>
-                                    <Button variant="contained" onClick={() => handleDonateClick(student.id)}>
+                                    <Button variant="contained" onClick={() => openTradeModal(advantage)}>
                                         Trocar
                                     </Button>
                                 </TableCell>
@@ -100,9 +100,11 @@ const StudentDashboard: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {selectedStudentId !== null && (
+            {modalOpen && (
                 <TradeAdvantageModal
-                    advantage={advantages[0]}
+                    advantage={selectedAdvantage} 
+                    student={student}
+                    setStudent={setStudent}
                     onClose={() => setModalOpen(false)}
                 />
             )}
