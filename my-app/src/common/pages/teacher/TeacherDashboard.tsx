@@ -27,6 +27,9 @@ const TeacherDashboard: React.FC = () => {
     }
 
     useEffect(() => {
+        if(modalOpen)
+            return
+        
         setLoading(true);
         api.get('/students')
             .then((response) => {
@@ -49,7 +52,7 @@ const TeacherDashboard: React.FC = () => {
             .catch(() => {
                 setError('Failed to load professor');
             });
-    }, []);
+    }, [modalOpen]);
 
     const handleDonateClick = (studentId: number) => {
         setSelectedStudentId(studentId);

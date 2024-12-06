@@ -26,6 +26,9 @@ const StudentDashboard: React.FC = () => {
     }
 
     useEffect(() => {
+        if(modalOpen)
+            return;
+
         setLoading(true);
         api.get('/advantages')
             .then((response) => {
@@ -46,7 +49,7 @@ const StudentDashboard: React.FC = () => {
             .catch(() => {
                 setError('Failed to load student');
             });
-    }, []);
+    }, [modalOpen]);
 
     const openTradeModal = (advantage: Advantage) => {
         setSelectedAdvantage(advantage);

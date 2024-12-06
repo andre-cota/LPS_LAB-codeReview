@@ -11,6 +11,7 @@ import com.lps.api.models.Advantage;
 import com.lps.api.models.Purchases;
 import com.lps.api.models.Student;
 import com.lps.api.repositories.PurchasesRepository;
+import com.lps.api.repositories.StudentRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -25,6 +26,9 @@ public class PurchaseService {
 
     @Autowired
     private AdvantageService advantageService;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     public List<Purchases> findByStudentId(Long studentId) {
         return purchaseRepository.findByStudentId(studentId);
@@ -48,6 +52,10 @@ public class PurchaseService {
         purchase.setDate(date);
 
         Purchases toReturn = this.purchaseRepository.save(purchase);
+
+        student.setBalance(student.getBalance() - (request.price() * request.quantity()));
+        studentRepository.save(student);
+
         return toReturn;
     }
 
