@@ -1,5 +1,6 @@
 package com.lps.api.services;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.lps.api.models.Student;
 import com.lps.api.repositories.PurchasesRepository;
 import com.lps.api.repositories.StudentRepository;
 
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -30,6 +32,9 @@ public class PurchaseService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private EmailSenderService emailSenderService;
+
     public List<Purchases> findByStudentId(Long studentId) {
         return purchaseRepository.findByStudentId(studentId);
     }
@@ -38,8 +43,18 @@ public class PurchaseService {
         Purchases purchase = new Purchases();
         Student student = studentService.findById(request.studentId());
         Advantage advantage = advantageService.findById(request.advantageId());
+
+        try {
+            emailSenderService.studentBuyAdventage(student.getEmail(), advantage.getCompany().getEmail(), advantage.getName(), request.quantity());
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     
-        if(student.getBalance() < request.price() * request.quantity()){
+        if(student.getBalance() < request.price()){
             throw new RuntimeException("Saldo insuficiente");
         }
 
@@ -53,7 +68,7 @@ public class PurchaseService {
 
         Purchases toReturn = this.purchaseRepository.save(purchase);
 
-        student.setBalance(student.getBalance() - (request.price() * request.quantity()));
+        student.setBalance(student.getBalance() - request.price());
         studentRepository.save(student);
 
         return toReturn;

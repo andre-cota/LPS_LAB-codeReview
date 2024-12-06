@@ -91,6 +91,9 @@ public class WebConfig implements WebMvcConfigurer, CommandLineRunner {
                 StudentRegisterDto student1 = new StudentRegisterDto("Pedro", "Pedronll@outlook.com", "123", "123", 200L, "123", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
                 studentService.save(student1);
 
+                StudentRegisterDto student2 = new StudentRegisterDto("PHP", "pedrohenriquepr08@gmail.com", "123", "321", 200L, "321", course1.getId(), new Address(null, "rua", 123, "casa", "bairro", "cidade", "estado", "cep"));
+                studentService.save(student2);
+
                 Professor professor = new Professor("Professor Pedro", "123@gmail.com", encoder.encode("1234"), "934571238", 1000L);
                 professor.setDepartment(department1);
                 this.professorRepository.save(professor);

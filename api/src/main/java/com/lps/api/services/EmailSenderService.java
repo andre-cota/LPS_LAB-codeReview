@@ -110,4 +110,91 @@ public class EmailSenderService {
         mailSender.send(mimeMessage);
 
     }
+
+    public void studentBuyAdventage(String studentEmail, String companyEmail, String productName, Integer quantity) throws MessagingException, UnsupportedEncodingException {
+        String MAIL_SUBJECT = "Compra concluida com sucesso!!";
+
+        String mailFrom = environment.getProperty("spring.mail.properties.mail.smtp.from");
+        String mailFromName = "Lab Prog System";
+        String message = "Você comprou um total de " + quantity + " " + productName;
+
+        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        final MimeMessageHelper email;
+
+        email = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        email.setTo(studentEmail);
+        email.setSubject(MAIL_SUBJECT);
+        email.setFrom(new InternetAddress(mailFrom, mailFromName));
+
+        email.setText(message, true);
+
+        mailSender.send(mimeMessage);
+        studentBuyAdventageToCompany(studentEmail, companyEmail, productName, quantity);
+    }
+
+    private void studentBuyAdventageToCompany(String studentEmail, String companyEmail, String productName, Integer quantity) throws MessagingException, UnsupportedEncodingException {
+        String MAIL_SUBJECT = "Compra concluida com sucesso!!";
+
+        String mailFrom = environment.getProperty("spring.mail.properties.mail.smtp.from");
+        String mailFromName = "Lab Prog System";
+        String message = "O aluno " + studentEmail + " comprou um total de " + quantity + " " + productName;
+
+        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        final MimeMessageHelper email;
+
+        email = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        email.setTo(companyEmail);
+        email.setSubject(MAIL_SUBJECT);
+        email.setFrom(new InternetAddress(mailFrom, mailFromName));
+
+        email.setText(message, true);
+
+        mailSender.send(mimeMessage);
+    }
+
+    public void teacherGiveCoinsToStudent(String studentEmail, String teacherEmail, Integer quantity) throws MessagingException, UnsupportedEncodingException {
+        String MAIL_SUBJECT = "Você recebeu moedas!!";
+
+        String mailFrom = environment.getProperty("spring.mail.properties.mail.smtp.from");
+        String mailFromName = "Lab Prog System";
+        String message = "Você recebeu " + quantity + " moedas de um professor";
+
+        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        final MimeMessageHelper email;
+
+        email = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        email.setTo(studentEmail);
+        email.setSubject(MAIL_SUBJECT);
+        email.setFrom(new InternetAddress(mailFrom, mailFromName));
+
+        email.setText(message, true);
+
+        mailSender.send(mimeMessage);
+        teacherGiveCoinsToStudentToTeacher(studentEmail, teacherEmail, quantity);
+    }
+
+    private void teacherGiveCoinsToStudentToTeacher(String studentEmail, String teacherEmail, Integer quantity) throws MessagingException, UnsupportedEncodingException {
+        String MAIL_SUBJECT = "Você deu moedas!!";
+
+        String mailFrom = environment.getProperty("spring.mail.properties.mail.smtp.from");
+        String mailFromName = "Lab Prog System";
+        String message = "Você deu " + quantity + " moedas a um aluno";
+
+        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        final MimeMessageHelper email;
+
+        email = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        email.setTo(teacherEmail);
+        email.setSubject(MAIL_SUBJECT);
+        email.setFrom(new InternetAddress(mailFrom, mailFromName));
+
+        email.setText(message, true);
+
+        mailSender.send(mimeMessage);
+    }
+
 }

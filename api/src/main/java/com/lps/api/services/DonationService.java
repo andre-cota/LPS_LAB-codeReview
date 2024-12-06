@@ -10,8 +10,10 @@ import com.lps.api.models.Professor;
 import com.lps.api.models.Student;
 import com.lps.api.repositories.DonationRepository;
 
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Service
@@ -25,10 +27,20 @@ public class DonationService {
     @Autowired
     private ProfessorService professorService;
 
+    @Autowired
+    private EmailSenderService emailSenderService;
+
     @Transactional
     public Donation donate(SendCoinsRequestDTO request) throws BadRequestException{
         Professor professor = this.professorService.findById(request.professorId());
         Student student = this.studentService.findById(request.studentId());
+
+        try {
+            emailSenderService.teacherGiveCoinsToStudent(professor.getEmail(), student.getEmail(), request.amount().intValue());
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         Long quantity = request.amount();
         if (quantity <= 0 || quantity > professor.getBalance()) {
